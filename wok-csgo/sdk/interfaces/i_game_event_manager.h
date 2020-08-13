@@ -7,7 +7,7 @@ public:
 
 	virtual bool			is_reliable() const = 0;
 	virtual bool			is_local() const = 0;
-	virtual bool			is_empy(const char* name = 0) = 0;
+	virtual bool			is_empty(const char* name = 0) = 0;
 
 	virtual bool			get_bool(const char* name, bool def_value = false) = 0;
 	virtual int				get_int(const char* name, int def_value = 0) = 0;
