@@ -42,13 +42,13 @@ public:
 	virtual bool			add_listener(i_game_event_listener* listener, const char* name, bool server_side) = 0;
 	virtual bool			find_listener(i_game_event_listener* listener, const char* name) = 0;
 	virtual void			remove_listener(i_game_event_listener* listener) = 0;
-	virtual void			add_listener_global(i_game_event_listener* listener, bool bIsServerSide) = 0;
+	virtual void			add_listener_global(i_game_event_listener* listener, bool server_side) = 0;
 	virtual i_game_event*	create_event(const char* name, bool force = false, int* cookie = 0) = 0;
 	virtual bool			fire_event(i_game_event* event, bool dont_broadcast = false) = 0;
-	virtual bool			fire_eventClientSide(i_game_event* event) = 0;
+	virtual bool			fire_event_client_side(i_game_event* event) = 0;
 	virtual i_game_event*	duplicate_event(i_game_event* event) = 0;
 	virtual void			free_event(i_game_event* event) = 0;
 	virtual bool			serialize_event(i_game_event* event, bf_write* buf) = 0;
 	virtual i_game_event*	unserialize_event(bf_read* buf) = 0;
-	virtual void*			get_eventDataTypes(i_game_event* event) = 0;
+	virtual void*			get_event_data_types(i_game_event* event) = 0;
 };
