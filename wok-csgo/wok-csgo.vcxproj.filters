@@ -82,28 +82,28 @@
     <ClCompile Include="features\misc\movement.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="hooks\functions\d3d_device.cpp">
+    <ClCompile Include="hooks\vtables\d3d_device.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="hooks\functions\client_dll.cpp">
+    <ClCompile Include="hooks\vtables\client_dll.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="hooks\functions\client_mode.cpp">
+    <ClCompile Include="hooks\vtables\client_mode.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="hooks\functions\model_render.cpp">
+    <ClCompile Include="hooks\vtables\model_render.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="hooks\functions\panel.cpp">
+    <ClCompile Include="hooks\vtables\panel.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="hooks\functions\surface.cpp">
+    <ClCompile Include="hooks\vtables\surface.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="hooks\functions\player.cpp">
+    <ClCompile Include="hooks\vtables\player.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="hooks\functions\renderable.cpp">
+    <ClCompile Include="hooks\vtables\renderable.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
