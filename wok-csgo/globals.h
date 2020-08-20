@@ -6,12 +6,12 @@
 
 namespace g {
 	namespace angles {
-		extern qangle_t		view;
-		extern qangle_t		real;
+		inline qangle_t		view;
+		inline qangle_t		real;
 	}
 
-	extern HMODULE			module;
-	extern c_local_player	local;
-	extern c_user_cmd*		cmd;
-	extern bool				send_packet;
+	inline HMODULE			module;
+	inline c_local_player	local;
+	inline c_user_cmd*		cmd;
+	inline bool				send_packet;
 }
