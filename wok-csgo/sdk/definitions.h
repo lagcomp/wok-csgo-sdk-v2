@@ -31,9 +31,6 @@
 #define MAX_COORD_FLOAT (16384.0f)
 #define MIN_COORD_FLOAT (-MAX_COORD_FLOAT)
 
-#define EVENT_DEBUG_ID_INIT 42
-#define EVENT_DEBUG_ID_SHUTDOWN 13
-
 #define MULTIPLAYER_BACKUP				150
 
 #define DISPSURF_FLAG_SURFACE           (1 << 0)
@@ -70,15 +67,6 @@
 #define TEXTURE_GROUP_VERTEX_SHADERS				"Vertex Shaders"
 #define TEXTURE_GROUP_RENDER_TARGET_SURFACE			"RenderTarget Surfaces"
 #define TEXTURE_GROUP_MORPH_TARGETS					"Morph Targets"
-
-#define FLOW_OUTGOING	0		
-#define FLOW_INCOMING	1
-#define MAX_FLOWS		2
-
-#define DAMAGE_NO			        0
-#define DAMAGE_EVENTS_ONLY	        1	
-#define DAMAGE_YES					2
-#define DAMAGE_AIM					3
 
 #define STUDIO_PROC_AXISINTERP		1
 #define STUDIO_PROC_QUATINTERP		2
