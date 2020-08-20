@@ -41,8 +41,7 @@ namespace render {
 		if (flags & FONT_CENTERED_X) {
 			pos.x -= text_size.x / 2.f;
 		}
-
-		if (flags & FONT_CENTERED_Y) {
+		else if (flags & FONT_CENTERED_Y) {
 			pos.y -= text_size.y / 2.f;
 		}
 
