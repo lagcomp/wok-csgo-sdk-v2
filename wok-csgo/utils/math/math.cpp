@@ -160,7 +160,8 @@ namespace math {
 		return negate * 3.14159265358979 + ret;
 	}
 
-	void fast_rsqrt(float a, float* out) {
+	float fast_rsqrt(float x) {
+		float* ret;
 		const auto xx = _mm_load_ss(&a);
 		auto xr = _mm_rsqrt_ss(xx);
 		auto xt = _mm_mul_ss(xr, xr);
@@ -168,6 +169,7 @@ namespace math {
 		xt = _mm_sub_ss(_mm_set_ss(3.f), xt);
 		xt = _mm_mul_ss(xt, _mm_set_ss(0.5f));
 		xr = _mm_mul_ss(xr, xt);
-		_mm_store_ss(out, xr);
+		_mm_store_ss(ret, xr);
+		return *ret;
 	}
 }
