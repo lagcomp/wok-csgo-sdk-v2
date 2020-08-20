@@ -16,12 +16,7 @@ public:
 		m_data = (unsigned char*)data;
 		m_data_bytes = bytes;
 
-		if (bits == -1) {
-			m_data_bits = bytes << 3;
-		}
-		else {
-			m_data_bits = bits;
-		}
+		m_data_bits = (bits == -1) ? bytes << 3 : bits;
 
 		m_cur_bit = start_bit;
 		m_overflow = false;
