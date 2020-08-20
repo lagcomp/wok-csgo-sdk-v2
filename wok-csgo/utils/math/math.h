@@ -23,5 +23,5 @@ namespace math {
 
 	float fast_acos(float x);
 
-	void fast_rsqrt(float a, float* out);
+	float fast_rsqrt(float x);
 }
