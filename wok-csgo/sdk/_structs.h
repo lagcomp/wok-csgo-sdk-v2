@@ -119,12 +119,15 @@ public:
 	float					m_time_since_stopped_moving;
 	bool					m_on_ground;
 	bool					m_in_hit_ground_animation;
-	char					pad5[6];
+	char					pad5[2];
+	float					m_next_lowerbody_yaw_update_time;
 	float					m_time_since_in_air;
 	float					m_last_origin_z;
 	float					m_head_height_or_offset_from_hitting_ground_animation;
 	float					m_stop_to_full_running_fraction;
-	char					pad6[4];
+	bool					m_is_just_landed;
+	bool					m_is_just_left_ground;
+	char					pad6[2];
 	float					m_magic_fraction;
 	char					pad7[48];
 	float					m_last_velocity_test_time;
