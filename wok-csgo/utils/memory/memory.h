@@ -199,10 +199,10 @@ namespace memory {
 
 		const auto scan_bytes = reinterpret_cast<uint8_t*>(offset);
 
-		for (int i = 0; i < range - size; i++) {
+		for (auto i = 0u; i < range - size; i++) {
 			auto found = true;
 
-			for (int j = 0; j < size; j++) {
+			for (auto j = 0u; j < size; j++) {
 				if (scan_bytes[i + j] != data[j] && data[j] != -1) {
 					found = false;
 					break;
