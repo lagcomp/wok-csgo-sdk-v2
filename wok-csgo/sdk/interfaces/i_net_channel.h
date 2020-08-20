@@ -1,5 +1,9 @@
 #pragma once
 
+constexpr auto FLOW_OUTGOING = 0;
+constexpr auto FLOW_INCOMING = 1;
+constexpr auto MAX_FLOWS = 2;
+
 class i_net_msg {
 public:
 	virtual					~i_net_msg() = default;
