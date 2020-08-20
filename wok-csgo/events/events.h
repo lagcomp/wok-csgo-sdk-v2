@@ -22,3 +22,5 @@ namespace events {
 
 	extern std::unordered_map<uint32_t, std::function<void(i_game_event*)>> m_callbacks;
 }
+
+#define ADD_CALLBACK(name, fn) m_callbacks[FNV1A(name)] = fn; interfaces::event_manager->add_listener(&m_listener, _(name), false);
