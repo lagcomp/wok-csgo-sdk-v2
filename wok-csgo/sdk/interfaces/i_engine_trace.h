@@ -1,5 +1,12 @@
 #pragma once
 
+enum e_damage_type {
+	DAMAGE_NO,
+	DAMAGE_EVENTS_ONLY,
+	DAMAGE_YES,
+	DAMAGE_AIM
+};
+
 class i_engine_trace {
 public:
 	virtual int	get_point_contents(const vec3_t& pos, int mask = MASK_ALL, i_handle_entity** entity = 0) = 0;
