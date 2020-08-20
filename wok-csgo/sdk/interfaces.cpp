@@ -51,37 +51,4 @@ namespace interfaces {
 			}
 		}
 	}
-
-	i_base_client_dll*		client_dll = nullptr;
-	i_engine_client*		engine = nullptr;
-	i_client_entity_list*	entity_list = nullptr;
-	i_client_mode*			client_mode = nullptr;
-	i_global_vars*			global_vars = nullptr;
-	i_client_state*			client_state = nullptr;
-	i_mem_alloc*			mem_alloc = nullptr;
-	i_model_info*			model_info = nullptr;
-	i_surface*				surface = nullptr;
-	i_input*				input = nullptr;
-	i_move_helper*			move_helper = nullptr;
-	i_prediction*			prediction = nullptr;
-	i_game_movement*		game_movement = nullptr;
-	i_debug_overlay*		debug_overlay = nullptr;
-	i_cvar*					cvar = nullptr;
-	i_game_event_manager*	event_manager = nullptr;
-	i_engine_trace*			trace = nullptr;
-	i_surface_data*			surface_data = nullptr;
-	i_input_system*			input_system = nullptr;
-	i_client_leaf_system*	leaf_system = nullptr;
-	c_game_rules**			game_rules = nullptr;
-	i_mdl_cache*			model_cache = nullptr;
-	i_model_render*			model_render = nullptr;
-	i_material_system*		material_system = nullptr;
-	i_glow_object_manager*	glow_manager = nullptr;
-	i_view_render_beams*	beams = nullptr;
-	i_weapon_system*		weapon_system = nullptr;
-	c_cs_player_resource**	player_resource = nullptr;
-	i_localize*				localize = nullptr;
-	i_panel*				panel = nullptr;
-
-	IDirect3DDevice9*		d3d_device = nullptr;
 }
