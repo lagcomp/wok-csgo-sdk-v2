@@ -223,7 +223,7 @@ public:
 	NETVAR(get_view_model(), c_base_handle, "CBasePlayer->m_hViewModel[0]")
 	NETVAR_OFFSET(get_cur_cmd(), c_user_cmd*, "CBasePlayer->m_hConstraintEntity", -0xC)
 		
-	OFFSET(get_last_cmd(), c_user_cmd*, 0x3288)
+	OFFSET(get_last_cmd(), c_user_cmd, 0x3288)
 
 	VFUNC(think(), 138, void(__thiscall*)(void*))
 	VFUNC(pre_think(), 317, void(__thiscall*)(void*))

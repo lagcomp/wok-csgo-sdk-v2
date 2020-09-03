@@ -21,7 +21,7 @@ bool __stdcall hooks::client_mode::create_move::fn(float input_sample_time, c_us
 
 	engine_prediction->end(g::local, cmd);
 
-	cmd->m_view_angles.normalize();
+	cmd->m_view_angles.sanitize();
 
 	g::angles::real = cmd->m_view_angles;
 

@@ -95,6 +95,7 @@
       <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeaderFile />
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>

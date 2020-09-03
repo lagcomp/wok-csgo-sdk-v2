@@ -48,19 +48,19 @@ struct vec2_t {
 		return *this;
 	}
 
-	void normalize() {
-		const auto l = length();
+	vec2_t& normalize() {
+		if (const auto l = length()) {
+			x /= l;
+			y /= l;
+		}
 
-		x /= l;
-		y /= l;
+		return *this;
 	}
 
 	vec2_t normalized() {
 		auto ret = *this;
 
-		ret.normalize();
-
-		return ret;
+		return ret.normalize();
 	}
 
 	bool operator==(const vec2_t& in) const { return x == in.x && y == in.y; }
@@ -152,20 +152,20 @@ struct vec3_t {
 		return *this;
 	}
 
-	void normalize() {
-		const auto l = length();
+	vec3_t& normalize() {
+		if (const auto l = length()) {
+			x /= l;
+			y /= l;
+			z /= l;
+		}
 
-		x /= l;
-		y /= l;
-		z /= l;
+		return *this;
 	}
 
 	vec3_t normalized() {
 		auto ret = *this;
 
-		ret.normalize();
-
-		return ret;
+		return ret.normalize();
 	}
 
 	bool operator==(const vec3_t& in) const { return x == in.x && y == in.y && z == in.z; }
@@ -280,14 +280,25 @@ struct qangle_t {
 
 	bool operator!=(const qangle_t& in) const { return !(operator==(in)); }
 
-	void normalize();
+	void clamp();
+
+	qangle_t& normalize() {
+		x = remainderf(x, 360.f);
+		y = remainderf(y, 360.f);
+		z = remainderf(z, 360.f);
+
+		return *this;
+	}
+
+	void sanitize() {
+		normalize();
+		clamp();
+	}
 
 	qangle_t normalized() {
 		auto ret = *this;
 
-		ret.normalize();
-
-		return ret;
+		return ret.normalize();
 	}
 
 	float length_sqr() const { return x * x + y * y + z * z; }
