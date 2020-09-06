@@ -56,11 +56,14 @@ namespace hooks {
 	}
 
 	void undo() {
-		m_d3d_device->unhook();
-		m_client_dll->unhook();
-		m_client_mode->unhook();
-		m_player->unhook();
 		m_renderable->unhook();
+		m_player->unhook();
+		m_surface->unhook();
+		m_panel->unhook();
+		m_model_render->unhook();
+		m_client_mode->unhook();
+		m_client_dll->unhook();
+		m_d3d_device->unhook();
 	}
 
 	std::unique_ptr<memory::hook_t> m_d3d_device = nullptr;
