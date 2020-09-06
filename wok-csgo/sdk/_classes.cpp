@@ -39,9 +39,6 @@ c_base_combat_weapon* c_base_combat_character::get_active_weapon() {
 }
 
 bool c_base_entity::is_enemy() {
-	if (this == g::local)
-		return false;
-
 	static const auto mp_teammates_are_enemies = interfaces::cvar->find_var(_("mp_teammates_are_enemies"));
 	if (mp_teammates_are_enemies->get_bool())
 		return true;
