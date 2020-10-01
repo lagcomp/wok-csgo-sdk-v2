@@ -1,5 +1,4 @@
 #pragma once
-#include <array>
 
 template <typename T, T value>
 struct constant_holder_t {
