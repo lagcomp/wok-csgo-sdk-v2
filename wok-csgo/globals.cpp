@@ -2,8 +2,8 @@
 
 namespace g {
 	namespace angles {
-		qangle_t    view = {};
-		qangle_t    real = {};
+		angle_t    view = {};
+		angle_t    real = {};
 	}
 
 	HMODULE			module = nullptr;

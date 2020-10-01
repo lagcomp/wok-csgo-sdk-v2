@@ -2,8 +2,8 @@
 
 class c_ik_context {
 public:
-	VFUNC_SIG(init(c_studio_hdr* hdr, qangle_t& angles, vec3_t& origin, float time, int framecount, int mask), "client.dll", "55 8B EC 83 EC ? 8B 45 ? 56 57 8B F9 8D 8F ? ? ? ?",
-		void(__thiscall*)(void*, c_studio_hdr*, qangle_t&, vec3_t&, float, int, int), hdr, angles, origin, time, framecount, mask)
+	VFUNC_SIG(init(c_studio_hdr* hdr, angle_t& angles, vec3_t& origin, float time, int framecount, int mask), "client.dll", "55 8B EC 83 EC ? 8B 45 ? 56 57 8B F9 8D 8F ? ? ? ?",
+		void(__thiscall*)(void*, c_studio_hdr*, angle_t&, vec3_t&, float, int, int), hdr, angles, origin, time, framecount, mask)
 
 	VFUNC_SIG(add_dependencies(mstudioseqdesc_t& seqdesc, int sequence, float cycle, float* pose_params, float weight), "client.dll",
 		"55 8B EC 81 EC ? ? ? ? 53 56 57 8B F9 0F 28 CB F3 0F 11 4D ? 8B 8F ? ? ? ? 8B 01",
@@ -40,10 +40,10 @@ public:
 	template<typename T>
 	__forceinline T& get(int offset) { return *reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(this) + offset); }
 
-	VFUNC(get_pred_desc_map(), 17, data_map_t*(__thiscall*)(void*))
+	VFUNC(get_pred_desc_map(), 17, data_map::data_map_t*(__thiscall*)(void*))
 
 	NETVAR(get_last_made_noise_time(), float, "CBaseEntity->m_flLastMadeNoiseTime")
-	NETVAR(get_rotation(), qangle_t, "CBaseEntity->m_angRotation")
+	NETVAR(get_rotation(), angle_t, "CBaseEntity->m_angRotation")
 	NETVAR(get_team(), e_team_id, "CBaseEntity->m_iTeamNum")
 	NETVAR(get_origin(), vec3_t, "CBaseEntity->m_vecOrigin")
 	NETVAR(get_owner_entity(), c_base_handle , "CBaseEntity->m_hOwnerEntity")
@@ -55,14 +55,14 @@ public:
 	NETVAR_OFFSET(get_old_sim_time(), float, "CBaseEntity->m_flSimulationTime", 0x4)
 	NETVAR_OFFSET(get_rgfl_coordinate_frame(), matrix3x4_t, "CBaseEntity->m_CollisionGroup", -0x30)
 
-	VFUNC(get_abs_angles(), 11, qangle_t&(__thiscall*)(void*))
+	VFUNC(get_abs_angles(), 11, angle_t&(__thiscall*)(void*))
 	VFUNC(get_abs_origin(), 10, vec3_t&(__thiscall*)(void*))
 
 	VFUNC(is_player(), 157, bool(__thiscall*)(void*))
 	VFUNC(is_weapon(), 165, bool(__thiscall*)(void*))
 	VFUNC(set_model_index(int id), 75, void(__thiscall*)(void*, int), id)
 
-	VFUNC_SIG(set_abs_angles(const qangle_t& angles), "client.dll", "55 8B EC 83 E4 F8 83 EC 64 53 56 57 8B F1", void(__thiscall*)(void*, const qangle_t&), angles)
+	VFUNC_SIG(set_abs_angles(const angle_t& angles), "client.dll", "55 8B EC 83 E4 F8 83 EC 64 53 56 57 8B F1", void(__thiscall*)(void*, const angle_t&), angles)
 	VFUNC_SIG(set_abs_origin(const vec3_t& origin), "client.dll", "55 8B EC 83 E4 F8 51 53 56 57 8B F1 E8 ? ? ? ? 8B 7D", void(__thiscall*)(void*, const vec3_t&), origin)
 
 	OFFSET(get_renderable(), i_client_renderable*, 0x4)
@@ -89,7 +89,7 @@ public:
 	DATA_MAP(get_effects(), bit_flag_t, "m_fEffects")
 	DATA_MAP(get_eflags(), bit_flag_t, "m_iEFlags")
 	DATA_MAP(get_abs_velocity(), vec3_t, "m_vecAbsVelocity")
-	DATA_MAP(get_abs_rotation(), qangle_t, "m_angAbsRotation")
+	DATA_MAP(get_abs_rotation(), angle_t, "m_angAbsRotation")
 
 	void invalidate_bone_cache() {
 		static const auto most_recent_model_bone_counter = **SIG("client.dll", "80 3D ? ? ? ? ? 74 16 A1 ? ? ? ? 48 C7 81").self_offset(0xA).cast<unsigned long**>();
@@ -217,8 +217,8 @@ public:
 	NETVAR(get_view_offset(), vec3_t, "CBasePlayer->m_vecViewOffset[0]")
 	NETVAR(get_health(), int, "CBasePlayer->m_iHealth")
 	NETVAR(get_life_state(), e_life_state, "CBasePlayer->m_lifeState")
-	NETVAR(get_view_punch_angle(), qangle_t, "CBasePlayer->m_viewPunchAngle")
-	NETVAR(get_aim_punch_angle(), qangle_t, "CBasePlayer->m_aimPunchAngle")
+	NETVAR(get_view_punch_angle(), angle_t, "CBasePlayer->m_viewPunchAngle")
+	NETVAR(get_aim_punch_angle(), angle_t, "CBasePlayer->m_aimPunchAngle")
 	NETVAR(get_aim_punch_angle_vel(), vec3_t, "CBasePlayer->m_aimPunchAngleVel")
 	NETVAR(get_view_model(), c_base_handle, "CBasePlayer->m_hViewModel[0]")
 	NETVAR_OFFSET(get_cur_cmd(), c_user_cmd*, "CBasePlayer->m_hConstraintEntity", -0xC)
@@ -230,7 +230,7 @@ public:
 	VFUNC(post_think(), 318, void(__thiscall*)(void*))
 	VFUNC(select_item(const char* name, int sub_type), 329, void(__thiscall*)(void*, const char*, int), name, sub_type)
 	VFUNC(update_collistion_bounds(), 339, void(__thiscall*)(void*))
-	VFUNC(set_local_view_angles(const qangle_t& angle), 372, void(__thiscall*)(void*, const qangle_t&), angle)
+	VFUNC(set_local_view_angles(const angle_t& angle), 372, void(__thiscall*)(void*, const angle_t&), angle)
 
 	VFUNC_SIG(unknown_think(int unk), "client.dll", "55 8B EC 56 57 8B F9 8B B7 ? ? ? ? 8B C6 C1 E8 16 24 01 74 18", void(__thiscall*)(void*, int), unk)
 	VFUNC_SIG(using_standard_weapons_in_vehicle(), "client.dll", "56 57 8B F9 8B 97 ? ? ? ? 83 FA FF 74 41", bool(__thiscall*)(void*))
@@ -278,7 +278,7 @@ public:
 	void set_pose_parameter(int param, float value) {
 		static const auto studio_set_pose_parameter_fn = SIG("client.dll", "55 8B EC 83 E4 F8 83 EC 08 F3 0F 11 54 24 ? 85 D2").get();
 
-		auto result = 0.0f;
+		auto result = 0.f;
 		auto hdr = get_studio_hdr();
 
 		__asm {
@@ -306,7 +306,7 @@ public:
 	NETVAR(has_helmet(), bool, "CCSPlayer->m_bHasHelmet")
 	NETVAR(get_armor_value(), int, "CCSPlayer->m_ArmorValue")
 	NETVAR(has_heavy_armor(), bool, "CCSPlayer->m_bHasHeavyArmor")
-	NETVAR(get_eye_angles(), qangle_t, "CCSPlayer->m_angEyeAngles")
+	NETVAR(get_eye_angles(), angle_t, "CCSPlayer->m_angEyeAngles")
 	NETVAR(is_scoped(), bool, "CCSPlayer->m_bIsScoped")
 	NETVAR(is_immune(), bool, "CCSPlayer->m_bGunGameImmunity")
 	NETVAR(is_ghost(), bool, "CCSPlayer->m_bIsPlayerGhost")

@@ -1,6 +1,6 @@
 #include "../features.h"
 
-void c_movement::fix(const qangle_t& wish, const qangle_t& original) {
+void c_movement::fix(const angle_t& wish, const angle_t& original) {
 	if (wish == original)
 		return;
 

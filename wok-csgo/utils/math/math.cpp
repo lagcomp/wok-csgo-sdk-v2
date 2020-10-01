@@ -6,12 +6,12 @@ namespace math {
 		cos = math::cos(rad);
 	}
 
-	void angle_vectors(const qangle_t& angles, vec3_t* forward, vec3_t* right, vec3_t* up) {
+	void angle_vectors(const angle_t& angles, vec3_t* forward, vec3_t* right, vec3_t* up) {
 		vec3_t cos, sin;
 
-		sin_cos(DEG2RAD(angles.x), sin.x, cos.x);
-		sin_cos(DEG2RAD(angles.y), sin.y, cos.y);
-		sin_cos(DEG2RAD(angles.z), sin.z, cos.z);
+		sin_cos(deg_to_rad(angles.x), sin.x, cos.x);
+		sin_cos(deg_to_rad(angles.y), sin.y, cos.y);
+		sin_cos(deg_to_rad(angles.z), sin.z, cos.z);
 
 		if (forward) {
 			forward->x = cos.x * cos.y;
@@ -32,18 +32,18 @@ namespace math {
 		}
 	}
 
-	qangle_t calc_angle(const vec3_t& src, const vec3_t& dst) {
+	angle_t calc_angle(const vec3_t& src, const vec3_t& dst) {
 		const auto delta = src - dst;
-		if (delta.empty())
-			return qangle_t();
+		if (!delta)
+			return angle_t();
 
 		const auto length = delta.length();
 
 		if (delta.z == 0.f && length == 0.f
 			|| delta.y == 0.f && delta.x == 0.f)
-			return qangle_t();
+			return angle_t();
 
-		auto angles = qangle_t(asin(delta.z / length) * M_RADPI, atan(delta.y / delta.x) * M_RADPI, 0.f);
+		auto angles = angle_t(asin(delta.z / length) * RADPI, atan(delta.y / delta.x) * RADPI, 0.f);
 
 		if (delta.x >= 0.f) {
 			angles.y += 180.f;
@@ -65,7 +65,7 @@ namespace math {
 		ret -= 0.2121144;
 		ret *= x;
 		ret += 1.5707288;
-		ret = 3.14159265358979 * 0.5 - fast_sqrt(1.0 - x) * ret;
+		ret = 3.14159265358979 * 0.5 - sqrt(1.0 - x) * ret;
 
 		return ret - 2.f * negate * ret;
 	}
@@ -138,7 +138,7 @@ namespace math {
 		ret -= 0.2121144;
 		ret *= x;
 		ret += 1.5707288;
-		ret *= fast_sqrt(1.0 - x);
+		ret *= sqrt(1.0 - x);
 		ret -= 2 * negate * ret;
 
 		return negate * 3.14159265358979 + ret;

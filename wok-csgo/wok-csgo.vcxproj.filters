@@ -106,7 +106,7 @@
     <ClCompile Include="utils\memory\memory.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="sdk\misc.cpp">
+    <ClCompile Include="sdk\sdk.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

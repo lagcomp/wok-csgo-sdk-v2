@@ -15,7 +15,7 @@ struct model_t {
 
 struct model_render_info_t {
 	vec3_t					m_origin;
-	qangle_t				m_angles;
+	angle_t				m_angles;
 	char					pad[4];
 	i_client_renderable*	m_renderable;
 	const model_t*			m_model;

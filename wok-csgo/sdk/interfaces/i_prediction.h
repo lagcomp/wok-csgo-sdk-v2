@@ -6,8 +6,8 @@ struct move_data_t {
 	bool            m_no_air_control : 1;
 	c_base_handle	m_player_handle;
 	int				m_impulse_command;
-	qangle_t		m_view_angles;
-	qangle_t		m_abs_view_angles;
+	angle_t		m_view_angles;
+	angle_t		m_abs_view_angles;
 	int				m_buttons;
 	int				m_old_buttons;
 	vec3_t			m_move;
@@ -16,8 +16,8 @@ struct move_data_t {
 	vec3_t			m_velocity;
 	vec3_t			m_old_velocity;
 	char			pad0[4];
-	qangle_t        m_angles;
-	qangle_t		m_old_angles;
+	angle_t        m_angles;
+	angle_t		m_old_angles;
 	float			m_out_step_height;
 	vec3_t			m_out_wish_velocity;
 	vec3_t			m_out_jump_velocity;
@@ -33,14 +33,42 @@ class c_base_player;
 
 class i_prediction {
 public:
-	VFUNC(update(int start_frame, bool valid_frame, int incoming_acknowledged, int outgoing_command), 3, void(__thiscall*)(void*, int, bool, int, int), start_frame, valid_frame, incoming_acknowledged, outgoing_command)
-	VFUNC(post_entity_packet_received(), 5, void(__thiscall*)(void*))
-	VFUNC(post_network_data_received(int commands_acknowledged), 6, void(__thiscall*)(void*, int), commands_acknowledged)
-	VFUNC(set_local_view_angles(const qangle_t& view_angles), 13, void(__thiscall*)(void*, const qangle_t&), view_angles)
-	VFUNC(check_moving_on_ground(c_base_player* player, float frame_time), 18, void(__thiscall*)(void*, c_base_player*, double), player, frame_time)
-	VFUNC(run_command(c_base_player* player, c_user_cmd* cmd, i_move_helper* move_helper), 19, void(__thiscall*)(void*, c_base_player*, c_user_cmd *, i_move_helper*), player, cmd, move_helper)
-	VFUNC(setup_move(c_base_player* player, c_user_cmd* cmd, i_move_helper* move_helper, move_data_t* move_data), 20, void(__thiscall*)(void*, c_base_player*, c_user_cmd*, i_move_helper*, move_data_t*), player, cmd, move_helper, move_data)
-	VFUNC(finish_move(c_base_player* player, c_user_cmd* cmd, move_data_t* move_data), 21, void(__thiscall*)(void*, c_base_player*, c_user_cmd*, move_data_t*), player, cmd, move_data)
+	virtual			~i_prediction() {};
+
+	virtual void	init										() = 0;
+	virtual void	shutdown									() = 0;
+
+	virtual void	update									(int start_frame, bool valid_frame, int incoming_acknowledged, int outgoing_command) = 0;
+
+	virtual void	on_received_uncompressed_packet	() = 0;
+
+	virtual void	pre_entity_packet_received			(int commands_acknowledged, int current_world_update_packet, int server_ticks_elapsed) = 0;
+	virtual void	post_entity_packet_received		() = 0;
+	virtual void	post_network_data_received			(int commands_acknowledged) = 0;
+
+	virtual bool	in_prediction							() const = 0;
+	virtual bool	is_first_time_predicted				() const = 0;
+	virtual int		get_last_acknowledged_cmd_number	() const = 0;
+
+	virtual int		get_incoming_packet_number			() const = 0;
+
+	virtual void	get_view_origin						(vec3_t& origin) = 0;
+	virtual void	set_view_origin						(vec3_t& origin) = 0;
+	virtual void	get_view_angles						(angle_t& angle) = 0;
+	virtual void	set_view_angles						(angle_t& angle) = 0;
+
+	virtual void	get_local_view_angles				(angle_t& angle) = 0;
+	virtual void	set_local_view_angles				(angle_t& angle) = 0;
+
+	virtual void	check_moving_on_ground				(c_base_player *player, double frame_time) = 0;
+	virtual void	run_command								(c_base_player *player, c_user_cmd *cmd, i_move_helper *helper) = 0;
+
+	virtual void	setup_move								(c_base_player* player, c_user_cmd* cmd, i_move_helper* helper, move_data_t* move) = 0;
+	virtual void	finish_move								(c_base_player* player, c_user_cmd* cmd, move_data_t* move) = 0;
+	virtual void	set_ideal_pitch						(int slot, c_base_player* player, const vec3_t& origin, const angle_t& angle, const vec3_t& view_height) = 0;
+
+	virtual void	check_error								(int slot, c_base_player* player, int commands_acknowledged) = 0;
+
 
 	char						pad0[8];
 	bool						m_in_prediction;

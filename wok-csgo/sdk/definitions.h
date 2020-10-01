@@ -1,10 +1,5 @@
 #pragma once
 
-#define M_PI		3.14159265358979323846f
-#define M_RADPI		57.295779513082f
-#define RAD2DEG(x)  (static_cast<float>(x) * static_cast<float>(180.f / M_PI))
-#define DEG2RAD(x)  (static_cast<float>(x) * static_cast<float>(M_PI / 180.f))
-
 #define IN_RANGE(a, b, c)		(a >= b && a <= c) 
 
 #define TICK_INTERVAL			(interfaces::global_vars->m_interval_per_tick)
@@ -12,13 +7,6 @@
 #define TIME_TO_TICKS(dt)		(static_cast<int>(0.5f + static_cast<float>(dt) / TICK_INTERVAL))
 #define TICKS_TO_TIME(t)		(TICK_INTERVAL * (t))
 #define ROUND_TO_TICKS(t)		(TICK_INTERVAL * TIME_TO_TICKS(t))
-
-#define NUM_ENT_ENTRY_BITS				(11 + 2)
-#define NUM_ENT_ENTRIES					(1 << NUM_ENT_ENTRY_BITS)
-#define INVALID_EHANDLE_INDEX			0xFFFFFFFF
-#define NUM_SERIAL_NUM_BITS				16
-#define NUM_SERIAL_NUM_SHIFT_BITS		(32 - NUM_SERIAL_NUM_BITS)
-#define ENT_ENTRY_MASK					((1 << NUM_SERIAL_NUM_BITS) - 1)
 
 #define DECL_ALIGN(x)			__declspec(align(x))
 
@@ -70,15 +58,6 @@
 #define TEXTURE_GROUP_VERTEX_SHADERS				"Vertex Shaders"
 #define TEXTURE_GROUP_RENDER_TARGET_SURFACE			"RenderTarget Surfaces"
 #define TEXTURE_GROUP_MORPH_TARGETS					"Morph Targets"
-
-#define FLOW_OUTGOING	0		
-#define FLOW_INCOMING	1
-#define MAX_FLOWS		2
-
-#define DAMAGE_NO			        0
-#define DAMAGE_EVENTS_ONLY	        1	
-#define DAMAGE_YES					2
-#define DAMAGE_AIM					3
 
 #define STUDIO_PROC_AXISINTERP		1
 #define STUDIO_PROC_QUATINTERP		2
@@ -202,42 +181,17 @@
 #define CAM_HULL_MIN		vec3_t(-CAM_HULL_OFFSET, -CAM_HULL_OFFSET, -CAM_HULL_OFFSET)
 #define CAM_HULL_MAX		vec3_t(CAM_HULL_OFFSET, CAM_HULL_OFFSET, CAM_HULL_OFFSET)
 
-#define IN_ATTACK        (1 << 0)
-#define IN_JUMP          (1 << 1)
-#define IN_DUCK          (1 << 2)
-#define IN_FORWARD       (1 << 3)
-#define IN_BACK          (1 << 4)
-#define IN_USE           (1 << 5)
-#define IN_CANCEL        (1 << 6)
-#define IN_LEFT          (1 << 7)
-#define IN_RIGHT         (1 << 8)
-#define IN_MOVELEFT      (1 << 9)
-#define IN_MOVERIGHT     (1 << 10)
-#define IN_ATTACK2       (1 << 11)
-#define IN_RUN           (1 << 12)
-#define IN_RELOAD        (1 << 13)
-#define IN_ALT1          (1 << 14)
-#define IN_ALT2          (1 << 15)
-#define IN_SCORE         (1 << 16)
-#define IN_SPEED         (1 << 17)
-#define IN_WALK          (1 << 18)
-#define IN_ZOOM          (1 << 19)
-#define IN_WEAPON1       (1 << 20)
-#define IN_WEAPON2       (1 << 21)
-#define IN_BULLRUSH      (1 << 22)
-#define IN_GRENADE1      (1 << 23)
-#define IN_GRENADE2      (1 << 24)
-#define IN_ATTACK3       (1 << 25)
-
 class c_animation_layer;
 
 using pose_params_t = std::array<float, 24>;
 using anim_layers_t = std::array<c_animation_layer, 15>;
 
-double inline __declspec (naked) __fastcall fast_sqrt(double n) {
-	_asm {
-		fld qword ptr[esp + 4]
-		fsqrt
-		ret 8
+namespace math {
+	double inline __declspec (naked) __fastcall sqrt(double n) {
+		_asm {
+			fld qword ptr[esp + 4]
+			fsqrt
+			ret 8
+		}
 	}
 }

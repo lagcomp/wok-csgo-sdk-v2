@@ -115,7 +115,7 @@ namespace cfg {
 
 				auto& item_vec = cur_item.get<std::vector<int>>();
 
-				for (int i = 0; i < vec.size(); i++) {
+				for (auto i = 0u; i < vec.size(); i++) {
 					if (i >= item_vec.size())
 						continue;
 
@@ -127,7 +127,7 @@ namespace cfg {
 
 				auto& item_vec = cur_item.get<std::vector<float>>();
 
-				for (int i = 0; i < vec.size(); i++) {
+				for (auto i = 0u; i < vec.size(); i++) {
 					if (i >= item_vec.size())
 						continue;
 
@@ -139,7 +139,7 @@ namespace cfg {
 
 				auto& item_vec = cur_item.get<std::vector<bool>>();
 
-				for (int i = 0; i < vec.size(); i++) {
+				for (auto i = 0u; i < vec.size(); i++) {
 					if (i >= item_vec.size())
 						continue;
 

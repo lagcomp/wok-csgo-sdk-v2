@@ -72,7 +72,7 @@ struct vec2_t {
 
 	__forceinline float length_sqr() const { return x * x + y * y; }
 
-	__forceinline float length() const { return fast_sqrt(length_sqr()); }
+	__forceinline float length() const { return math::sqrt(length_sqr()); }
 
 	__forceinline float dot_product(const vec2_t& value) const { return x * value.x + y * value.y; }
 
@@ -82,10 +82,10 @@ struct vec2_t {
 
 	__forceinline bool is_valid() const { return std::isfinite(x) && std::isfinite(y); }
 
-	__forceinline bool empty() const { return x == 0.f && y == 0.f; }
+	__forceinline bool operator!() const { return x == 0.f && y == 0.f; }
 };
 
-struct qangle_t;
+struct angle_t;
 struct matrix3x4_t;
 
 struct vec3_t {
@@ -186,9 +186,9 @@ struct vec3_t {
 
 	__forceinline float length_sqr() const { return x * x + y * y + z * z; }
 
-	__forceinline float length() const { return fast_sqrt(length_sqr()); }
+	__forceinline float length() const { return math::sqrt(length_sqr()); }
 
-	__forceinline float length_2d() const { return fast_sqrt(x * x + y * y); }
+	__forceinline float length_2d() const { return math::sqrt(x * x + y * y); }
 
 	__forceinline float dot_product(const vec3_t& value) const { return x * value.x + y * value.y + z * value.z; }
 
@@ -204,9 +204,9 @@ struct vec3_t {
 
 	vec3_t i_rotate(const matrix3x4_t& value) const;
 
-	qangle_t angle() const;
+	angle_t angle() const;
 
-	qangle_t angle(const vec3_t& up) const;
+	angle_t angle(const vec3_t& up) const;
 
 	__forceinline float dist_to(const vec3_t& value) const { return (*this - value).length(); }
 
@@ -214,7 +214,7 @@ struct vec3_t {
 
 	__forceinline bool is_valid() const { return std::isfinite(x) && std::isfinite(y) && std::isfinite(z); }
 
-	__forceinline bool empty() const { return x == 0.f && y == 0.f && z == 0.f; }
+	__forceinline bool operator!() const { return x == 0.f && y == 0.f && z == 0.f; }
 };
 
 struct vec4_t : public vec3_t {
@@ -294,9 +294,9 @@ struct ALIGN16 vec4a_t : public vec3_t {
 	float w = 0.f;
 };
 
-struct qangle_t {
-	qangle_t() = default;
-	qangle_t(float ix, float iy, float iz) {
+struct angle_t {
+	angle_t() = default;
+	angle_t(float ix, float iy, float iz) {
 		x = ix;
 		y = iy;
 		z = iz;
@@ -304,19 +304,19 @@ struct qangle_t {
 
 	float x = 0.f, y = 0.f, z = 0.f;
 
-	__forceinline qangle_t operator+(const qangle_t& value) const { return qangle_t(x + value.x, y + value.y, z + value.z); }
+	__forceinline angle_t operator+(const angle_t& value) const { return angle_t(x + value.x, y + value.y, z + value.z); }
 
-	__forceinline qangle_t operator-(const qangle_t& value) const { return qangle_t(x - value.x, y - value.y, z - value.z); }
+	__forceinline angle_t operator-(const angle_t& value) const { return angle_t(x - value.x, y - value.y, z - value.z); }
 
-	__forceinline qangle_t operator-(float value) const { return qangle_t(x - value, y - value, z - value); }
+	__forceinline angle_t operator-(float value) const { return angle_t(x - value, y - value, z - value); }
 
-	__forceinline qangle_t operator+(float value) const { return qangle_t(x + value, y + value, z + value); }
+	__forceinline angle_t operator+(float value) const { return angle_t(x + value, y + value, z + value); }
 
-	__forceinline qangle_t operator/(float value) const { return qangle_t(x / value, y / value, z / value); }
+	__forceinline angle_t operator/(float value) const { return angle_t(x / value, y / value, z / value); }
 
-	__forceinline qangle_t operator*(float value) const { return qangle_t(x * value, y * value, z * value); }
+	__forceinline angle_t operator*(float value) const { return angle_t(x * value, y * value, z * value); }
 
-	__forceinline qangle_t& operator-=(const qangle_t& value) {
+	__forceinline angle_t& operator-=(const angle_t& value) {
 		x -= value.x;
 		y -= value.y;
 		z -= value.z;
@@ -324,7 +324,7 @@ struct qangle_t {
 		return *this;
 	}
 
-	__forceinline qangle_t& operator+=(const qangle_t& value) {
+	__forceinline angle_t& operator+=(const angle_t& value) {
 		x += value.x;
 		y += value.y;
 		z += value.z;
@@ -332,7 +332,7 @@ struct qangle_t {
 		return *this;
 	}
 
-	__forceinline qangle_t& operator/=(float value) {
+	__forceinline angle_t& operator/=(float value) {
 		x /= value;
 		y /= value;
 		z /= value;
@@ -340,7 +340,7 @@ struct qangle_t {
 		return *this;
 	}
 
-	__forceinline qangle_t& operator*=(float value) {
+	__forceinline angle_t& operator*=(float value) {
 		x *= value;
 		y *= value;
 		z *= value;
@@ -348,13 +348,13 @@ struct qangle_t {
 		return *this;
 	}
 
-	__forceinline bool operator==(const qangle_t& value) const { return x == value.x && y == value.y && z == value.z; }
+	__forceinline bool operator==(const angle_t& value) const { return x == value.x && y == value.y && z == value.z; }
 
-	__forceinline bool operator!=(const qangle_t& value) const { return !(operator==(value)); }
+	__forceinline bool operator!=(const angle_t& value) const { return !(operator==(value)); }
 
-	qangle_t& sanitize();
+	angle_t& sanitize();
 
-	qangle_t& normalize() {
+	angle_t& normalize() {
 		x = remainderf(x, 360.f);
 		y = remainderf(y, 360.f);
 		z = remainderf(z, 360.f);
@@ -362,7 +362,7 @@ struct qangle_t {
 		return *this;
 	}
 
-	__forceinline qangle_t normalized() const {
+	__forceinline angle_t normalized() const {
 		auto ret = *this;
 
 		return ret.normalize();
@@ -372,13 +372,13 @@ struct qangle_t {
 
 	__forceinline float length_sqr() const { return x * x + y * y + z * z; }
 
-	__forceinline float length() const { return fast_sqrt(length_sqr()); }
+	__forceinline float length() const { return math::sqrt(length_sqr()); }
 
-	__forceinline float length_2d() const { return fast_sqrt(x * x + y * y); }
+	__forceinline float length_2d() const { return math::sqrt(x * x + y * y); }
 
 	__forceinline bool is_valid() const { return std::isfinite(x) && std::isfinite(y) && std::isfinite(z); }
 
-	__forceinline bool empty() const { return x == 0.f && y == 0.f && z == 0.f; }
+	__forceinline bool operator!() const { return x == 0.f && y == 0.f && z == 0.f; }
 };
 
 struct col_t {
@@ -673,24 +673,22 @@ struct matrix3x4_t {
 	}
 
 	__forceinline matrix3x4_t operator*(float value) const {
-		auto ret = matrix3x4_t();
+		return matrix3x4_t(
+			m_matrix[0][0] * value,
+			m_matrix[0][1] * value,
+			m_matrix[0][2] * value,
+			m_matrix[0][3] * value,
 
-		ret[0][0] = m_matrix[0][0] * value;
-		ret[0][1] = m_matrix[0][1] * value;
-		ret[0][2] = m_matrix[0][2] * value;
-		ret[0][3] = m_matrix[0][3] * value;
+			m_matrix[1][0] * value,
+			m_matrix[1][1] * value,
+			m_matrix[1][2] * value,
+			m_matrix[1][3] * value,
 
-		ret[1][0] = m_matrix[1][0] * value;
-		ret[1][1] = m_matrix[1][1] * value;
-		ret[1][2] = m_matrix[1][2] * value;
-		ret[1][3] = m_matrix[1][3] * value;
-
-		ret[2][0] = m_matrix[2][0] * value;
-		ret[2][1] = m_matrix[2][1] * value;
-		ret[2][2] = m_matrix[2][2] * value;
-		ret[2][3] = m_matrix[2][3] * value;
-
-		return ret;
+			m_matrix[2][0] * value,
+			m_matrix[2][1] * value,
+			m_matrix[2][2] * value,
+			m_matrix[2][3] * value
+		);
 	}
 
 	__forceinline vec3_t operator*(const vec3_t& value) const {
@@ -701,7 +699,7 @@ struct matrix3x4_t {
 		);
 	}
 
-	qangle_t angle() const;
+	angle_t angle() const;
 
 	__forceinline vec4_t& operator[](int i) { return m_matrix.at(i); }
 

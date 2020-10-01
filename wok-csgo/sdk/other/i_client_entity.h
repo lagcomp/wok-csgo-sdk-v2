@@ -40,7 +40,7 @@ class i_client_renderable {
 public:
 	virtual i_client_unknown*		get_client_unknown() = 0;
 	virtual vec3_t const&			get_render_origin() = 0;
-	virtual qangle_t const&			get_render_angles() = 0;
+	virtual angle_t const&			get_render_angles() = 0;
 	virtual bool					should_draw() = 0;
 	virtual int						get_render_flags() = 0;
 	virtual void					unknown0() const = 0;

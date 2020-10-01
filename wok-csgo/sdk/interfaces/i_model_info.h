@@ -14,7 +14,7 @@ struct mstudiobbox_t {
 	vec3_t      m_obb_min;
 	vec3_t      m_obb_max;
 	int         m_hitbox_name_index;
-	qangle_t	m_rotation;
+	angle_t	m_rotation;
 	float       m_radius;
 	char		pad1[16];
 

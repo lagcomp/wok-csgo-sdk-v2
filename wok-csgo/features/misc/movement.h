@@ -3,6 +3,6 @@
 
 class c_movement : public c_singleton<c_movement> {
 public:
-	void fix(const qangle_t& wish, const qangle_t& original);
+	void fix(const angle_t& wish, const angle_t& original);
 };
 #define movement c_movement::instance()

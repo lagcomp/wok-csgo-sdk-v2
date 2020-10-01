@@ -1,55 +1,55 @@
 #pragma once
 
 struct surfacephysicsparams_t {
-	float    friction;
-	float    elasticity;
-	float    density;
-	float    thickness;
-	float    dampening;
+	float    m_friction;
+	float    m_elasticity;
+	float    m_density;
+	float    m_thickness;
+	float    m_dampening;
 };
 
 struct surfaceaudioparams_t {
-	float    reflectivity;
-	float    hardness_factor;
-	float    roughness_factor;
-	float    rough_threshold;
-	float    hard_threshold;
-	float    hard_velocity_threshold;
-	float    high_pitch_occlusion;
-	float    mid_pitch_occlusion;
-	float    low_pitch_occlusion;
+	float    m_reflectivity;
+	float    m_hardness_factor;
+	float    m_roughness_factor;
+	float    m_rough_threshold;
+	float    m_hard_threshold;
+	float    m_hard_velocity_threshold;
+	float    m_high_pitch_occlusion;
+	float    m_mid_pitch_occlusion;
+	float    m_low_pitch_occlusion;
 };
 
 struct surfacesoundnames_t {
-	unsigned short    walk_step_left;
-	unsigned short    walk_step_right;
-	unsigned short	  run_step_left;
-	unsigned short	  run_step_right;
-	unsigned short    impact_soft;
-	unsigned short    impact_hard;
-	unsigned short    scrape_smooth;
-	unsigned short    scrape_rough;
-	unsigned short    bullet_impact;
-	unsigned short    rolling;
-	unsigned short    break_sound;
-	unsigned short    strain_sound;
+	unsigned short    m_walk_step_left;
+	unsigned short    m_walk_step_right;
+	unsigned short		m_run_step_left;
+	unsigned short		m_run_step_right;
+	unsigned short    m_impact_soft;
+	unsigned short    m_impact_hard;
+	unsigned short    m_scrape_smooth;
+	unsigned short    m_scrape_rough;
+	unsigned short    m_bullet_impact;
+	unsigned short    m_rolling;
+	unsigned short    m_break_sound;
+	unsigned short    m_strain_sound;
 };
 
 struct surfacegameprops_t {
 public:
-	float		max_speed_factor;
-	float		jump_factor;
-	float		penetration_modifier;
-	float		damage_modifier;
-	uint16_t	material;
-	uint8_t		climbable;
+	float		m_max_speed_factor;
+	float		m_jump_factor;
+	float		m_penetration_modifier;
+	float		m_damage_modifier;
+	uint16_t	m_material;
+	uint8_t	m_climbable;
 };
 
 struct surfacedata_t {
-	surfacephysicsparams_t	physics;
-	surfaceaudioparams_t	audio;
-	surfacesoundnames_t		sounds;
-	surfacegameprops_t		game;
+	surfacephysicsparams_t	m_physics;
+	surfaceaudioparams_t		m_audio;
+	surfacesoundnames_t		m_sounds;
+	surfacegameprops_t		m_game;
 	char					pad[48];
 };
 

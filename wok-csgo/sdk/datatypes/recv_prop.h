@@ -60,7 +60,7 @@ public:
 class c_recv_table {
 public:
 	c_recv_prop*	m_props;
-	int				m_num_props;
+	int				m_props_count;
 	void*			m_decoder;
 	char*			m_net_table_name;
 	bool			m_initialized;
@@ -70,12 +70,12 @@ public:
 struct recv_prop_hook_t {
 	recv_prop_hook_t(c_recv_prop* prop) { m_prop = prop; }
 
-	void hook(recv_var_proxy_fn proxy_fn) {
+	__forceinline void hook(recv_var_proxy_fn proxy_fn) {
 		m_original = m_prop->m_proxy_fn;
 		m_prop->m_proxy_fn = proxy_fn;
 	}
 
-	void unhook() { m_prop->m_proxy_fn = m_original; }
+	__forceinline void unhook() { m_prop->m_proxy_fn = m_original; }
 
 	recv_var_proxy_fn get_original() { return m_original; }
 

@@ -23,12 +23,7 @@ public:
 		m_data_in = m_data;
 		m_data_bytes = bytes;
 
-		if (bits == -1) {
-			m_data_bits = bytes << 3;
-		}
-		else {
-			m_data_bits = bits;
-		}
+		m_data_bits = (bits == -1) ? bytes << 3 : bits;
 
 		m_overflow = false;
 		m_buffer_end = reinterpret_cast<uint32_t const*>(reinterpret_cast<uint8_t const*>(m_data) + bytes);

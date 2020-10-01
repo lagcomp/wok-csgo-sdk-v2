@@ -19,7 +19,7 @@ public:
 	virtual int                 get_collision_model_index() = 0;
 	virtual const model_t*      get_collision_model() = 0;
 	virtual const vec3_t&		get_collision_origin() const = 0;
-	virtual const qangle_t&     get_collision_angles() const = 0;
+	virtual const angle_t&     get_collision_angles() const = 0;
 	virtual const matrix3x4_t&	collision_to_world_transform() const = 0;
 	virtual e_solid_type		get_solid() const = 0;
 	virtual int                 get_solid_flags() const = 0;

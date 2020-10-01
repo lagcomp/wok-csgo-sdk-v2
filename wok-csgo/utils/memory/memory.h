@@ -204,10 +204,10 @@ namespace memory {
 #define SIG(module_name, sig) memory::find_module_sig(FNV1A(module_name), _(sig))
 #define EXPORT(module_name, export_name) memory::get_export(FNV1A(module_name), FNV1A(export_name))
 
-#define _INTERFACE(value, type, module_name, interface_name) value = memory::capture_interface<type*>(FNV1A(module_name), _(interface_name));
-#define _INTERFACE_OFFSET(value, type, ptr, index, add) value = **reinterpret_cast<type***>((*reinterpret_cast<uintptr_t**>(ptr))[index] + add);
-#define _INTERFACE_SIG(value, type, module_name, sig, add) { value = *SIG(module_name, sig).self_offset(add).cast<type**>(); }
-#define _PINTERFACE_SIG(value, type, module_name, sig, add) { value = **SIG(module_name, sig).self_offset(add).cast<type***>(); }
+#define INTERFACE_VAR(value, type, module_name, interface_name) value = memory::capture_interface<type*>(FNV1A(module_name), _(interface_name));
+#define INTERFACE_OFFSET(value, type, ptr, index, add) value = **reinterpret_cast<type***>((*reinterpret_cast<uintptr_t**>(ptr))[index] + add);
+#define INTERFACE_SIG(value, type, module_name, sig, add) { value = *SIG(module_name, sig).self_offset(add).cast<type**>(); }
+#define PINTERFACE_SIG(value, type, module_name, sig, add) { value = **SIG(module_name, sig).self_offset(add).cast<type***>(); }
 
 #define VFUNC(func, index, type, ...) __forceinline auto func { return memory::get_vfunc<type>(this, index)(this, __VA_ARGS__); };
 #define VFUNC_SIG(func, module_name, sig, type, ...) __forceinline auto func { static const auto fn = SIG(module_name, sig).cast<type>(); return fn(this, __VA_ARGS__); };

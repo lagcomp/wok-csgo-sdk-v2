@@ -77,8 +77,8 @@ namespace hooks {
 	namespace player {
 		namespace eye_angles {
 			constexpr auto index = 169u;
-			using T = qangle_t*(__thiscall*)(c_cs_player*);
-			qangle_t* __fastcall fn(c_cs_player* ecx, void* edx);
+			using T = angle_t*(__thiscall*)(c_cs_player*);
+			angle_t* __fastcall fn(c_cs_player* ecx, void* edx);
 		}
 	}
 

@@ -53,7 +53,7 @@ public:
 	int					m_command_ack;
 	int					m_sound_sequence;
 	char				pad8[80];
-	qangle_t			m_view_angles;
+	angle_t			m_view_angles;
 	char				pad9[208];
 	c_event_info*		m_events;
 };

@@ -8,7 +8,7 @@ public:
 
 	int			m_command_number;
 	int			m_tick_count;
-	qangle_t	m_view_angles;
+	angle_t	m_view_angles;
 	vec3_t		m_aim_direction;
 	vec3_t		m_move;
 	bit_flag_t	m_buttons;

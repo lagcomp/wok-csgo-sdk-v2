@@ -1,6 +1,6 @@
 #include "../hooks.h"
 
-qangle_t* __fastcall hooks::player::eye_angles::fn(c_cs_player* ecx, void* edx) {
+angle_t* __fastcall hooks::player::eye_angles::fn(c_cs_player* ecx, void* edx) {
 	static const auto original = m_player->get_original<T>(index);
 	if (ecx != g::local)
 		return original(ecx);

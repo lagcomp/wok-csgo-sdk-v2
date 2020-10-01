@@ -6,8 +6,8 @@
 
 namespace g {
 	namespace angles {
-		extern qangle_t		view;
-		extern qangle_t		real;
+		extern angle_t		view;
+		extern angle_t		real;
 	}
 
 	extern HMODULE			module;

@@ -24,6 +24,6 @@ public:
 	virtual void			unknown3() = 0;
 	virtual c_cvar*			find_var(const char* name) = 0;
 
-	template <typename... A>
-	VFUNC(console_print(const col_t& clr, const char* txt, A... args), 25, void(__cdecl*)(void*, const col_t&, const char*, ...), clr, txt, args...)
+	template <typename... T>
+	VFUNC(console_print(const col_t& clr, const char* txt, T... args), 25, void(__cdecl*)(void*, const col_t&, const char*, ...), clr, txt, args...)
 };

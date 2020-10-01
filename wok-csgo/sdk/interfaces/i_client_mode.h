@@ -27,7 +27,7 @@ public:
 	float		m_fov;
 	float		m_view_model_fov;
 	vec3_t		m_origin;
-	qangle_t	m_angles;
+	angle_t	m_angles;
 	char		pad1[124];
 };
 
