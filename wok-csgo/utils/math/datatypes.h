@@ -352,8 +352,6 @@ struct angle_t {
 
 	__forceinline bool operator!=(const angle_t& value) const { return !(operator==(value)); }
 
-	angle_t& sanitize();
-
 	angle_t& normalize() {
 		x = remainderf(x, 360.f);
 		y = remainderf(y, 360.f);
@@ -361,6 +359,8 @@ struct angle_t {
 
 		return *this;
 	}
+
+	angle_t& sanitize();
 
 	__forceinline angle_t normalized() const {
 		auto ret = *this;

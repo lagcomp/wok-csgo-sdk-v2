@@ -71,9 +71,11 @@ angle_t vec3_t::angle(const vec3_t& up) const {
 }
 
 angle_t& angle_t::sanitize() {
-	x = math::clamp(remainderf(x, 360.f), -89.f, 89.f);
-	y = math::clamp(remainderf(y, 360.f), -180.f, 180.f);
-	z = math::clamp(remainderf(z, 360.f), -50.f, 50.f);
+	normalize()
+
+	x = math::clamp(x, -89.f, 89.f);
+	y = math::clamp(y, -180.f, 180.f);
+	z = math::clamp(z, -50.f, 50.f);
 
 	return *this;
 }
