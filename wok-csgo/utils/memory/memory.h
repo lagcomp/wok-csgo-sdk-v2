@@ -60,7 +60,7 @@ namespace memory {
 			return true;
 		}
 
-		template<typename T>
+		template <typename T>
 		__forceinline void hook(uint32_t index, T replace_function) {
 			if (index < 0u
 				|| index > m_table_length)
@@ -69,7 +69,7 @@ namespace memory {
 			m_replace[index + 1u] = reinterpret_cast<uintptr_t>(replace_function);
 		}
 
-		template<typename T>
+		template <typename T>
 		__forceinline T get_original(uint32_t index) {
 			if (index < 0
 				|| index > m_table_length)

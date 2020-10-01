@@ -6,7 +6,7 @@ namespace netvars {
 
 	void dump_recursive(const char* base_class, c_recv_table* table, uint32_t offset);
 
-	template<typename T>
+	template <typename T>
 	__declspec(noinline) static T get(uint32_t hash) { return std::get<T>(m_list.at(hash)); }
 
 	extern std::unordered_map<uint32_t, std::pair<c_recv_prop*, uint32_t>> m_list;

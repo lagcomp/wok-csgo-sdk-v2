@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 
-template<typename T, T value>
+template <typename T, T value>
 struct constant_holder_t {
 	enum class e_value_holder : T {
 		m_value = value

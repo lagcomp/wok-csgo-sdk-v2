@@ -8,7 +8,7 @@
 
 namespace xor_str {
 	namespace detail {
-		template<uint32_t S>
+		template <uint32_t S>
 		struct unsigned_t;
 
 		template <>
@@ -41,7 +41,7 @@ namespace xor_str {
 			return ((S / 16u) + (S % 16u != 0u)) * 2u;
 		}
 
-		template<auto... CS>
+		template <auto... CS>
 		struct string_t {
 			using value_t = typename pack_value_t<CS...>::type;
 

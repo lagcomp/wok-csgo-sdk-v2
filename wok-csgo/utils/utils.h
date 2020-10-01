@@ -28,7 +28,7 @@
 #include "cfg/cfg.h"
 
 namespace utils {
-	template<typename O, typename I>
+	template <typename O, typename I>
 	__forceinline O force_cast(I in) {
 		union {
 			I m_in;

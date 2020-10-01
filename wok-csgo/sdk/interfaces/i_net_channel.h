@@ -49,7 +49,7 @@ public:
 	virtual const char*		to_string() const = 0;
 };
 
-template<typename T>
+template <typename T>
 class i_net_msg_pb : public i_net_msg, public T {
 public:
 

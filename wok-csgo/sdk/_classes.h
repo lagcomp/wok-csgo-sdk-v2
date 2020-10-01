@@ -37,7 +37,7 @@ class c_bone_merge_cache {
 
 class c_base_entity : public i_client_entity {
 public:
-	template<typename T>
+	template <typename T>
 	__forceinline T& get(int offset) { return *reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(this) + offset); }
 
 	VFUNC(get_pred_desc_map(), 17, data_map::data_map_t*(__thiscall*)(void*))

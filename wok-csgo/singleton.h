@@ -1,6 +1,6 @@
 #pragma once
 
-template<typename T>
+template <typename T>
 class c_singleton {
 protected:
 	c_singleton() = default;

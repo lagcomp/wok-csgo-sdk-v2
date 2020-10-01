@@ -3,10 +3,10 @@
 
 namespace cfg {
 	struct item_t {
-		template<typename T>
+		template <typename T>
 		T& get() { return *reinterpret_cast<T*>(std::any_cast<T>(&m_var)); }
 
-		template<typename T>
+		template <typename T>
 		void set(T val) { m_var.emplace<T>(val); }
 
 		uint32_t m_type;
@@ -20,7 +20,7 @@ namespace cfg {
 
 	void load();
 
-	template<typename T>
+	template <typename T>
 	__declspec(noinline) static T& get(uint32_t hash) { return m_items.at(hash).get<T>(); }
 
 	extern std::string m_name;
