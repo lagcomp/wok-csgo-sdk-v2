@@ -67,15 +67,15 @@ public:
 	VFUNC_SIG(get_weapon_prefix(), "client.dll", "53 56 57 8B F9 33 F6 8B 4F 60 8B 01 FF 90", const char*(__thiscall*)(void*))
 	
 	__forceinline float get_body_yaw_modifier() const {
-		const auto move_velocity = math::clamp(m_forward_walk_speed, 0.f, 1.f);
+		const auto walk_speed = math::clamp(m_walk_speed, 0.f, 1.f);
 
-		const auto run_velocity = ((m_walk_to_run_transition * -0.30000001f) - 0.19999999f) * move_velocity;
-		const auto modifier = run_velocity + 1.f;
+		const auto run_speed = ((m_walk_to_run_transition * -0.30000001f) - 0.19999999f) * walk_speed;
+		const auto modifier = run_speed + 1.f;
 
 		if (m_duck_amount > 0.f) {
-			const auto crouch_velocity = math::clamp(m_forward_crouch_speed, 0.f, 1.f);
+			const auto crouch_walk_speed = math::clamp(m_crouch_walk_speed, 0.f, 1.f);
 
-			return modifier + (m_duck_amount * crouch_velocity) * (0.5f - modifier);
+			return modifier + (m_duck_amount * crouch_walk_speed) * (0.5f - modifier);
 		}
 
 		return modifier;
@@ -130,9 +130,9 @@ public:
 	vec3_t					m_velocity_normalized_non_zero;
 	float					m_speed_2d;
 	float					m_up_velocity;
-	float				m_forward_run_speed;
-	float				m_forward_walk_speed;
-	float				m_forward_crouch_speed;
+	float				m_run_speed;
+	float				m_walk_speed;
+	float				m_crouch_walk_speed;
 	float					m_time_since_started_moving;
 	float					m_time_since_stopped_moving;
 	bool					m_on_ground;
