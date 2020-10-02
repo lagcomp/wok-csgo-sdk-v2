@@ -17,17 +17,35 @@ namespace math {
 
 	double __forceinline __declspec (naked) __fastcall asin(double x) {
 		__asm {
-			fld	qword ptr [esp + 4]
-			fld	st
-			fmul st, st
+			fld		qword ptr [esp + 4]
+			fld		st
+			fabs
+			fcom		dword ptr [einhalb]
+			fstsw		ax
+			sahf
+			jbe		asin_cont
 			fld1
-			faddp st(1), st
+			fsubrp		st(1), st(0)
+			fld		st
+			fadd		st(0), st(0)
+			fxch		st(1)
+			fmul		st(0), st(0)
+			fsubp		st(1), st(0)
+			jmp		asin_exit
+
+			asin_cont:
+
+			fstp		st(0)
+			fld		st(0)
+			fmul		st(0), st(0)
+			fld1
+			fsubrp		st(1), st(0)
+
+			asin_exit:
+
 			fsqrt
-			faddp st(1), st
-			fldln2
-			fxch
-			fyl2x
-			ret	8
+			fpatan
+			ret		8
 		}
 	}
 
@@ -93,6 +111,30 @@ namespace math {
 			fpatan
 			fadd st(0), st(0)
 			ret	8
+		}
+	}
+	
+	double __forceinline __declspec (naked) __fastcall floor(double x) {
+		__asm {
+			fld		qword ptr [esp + 4]
+			fld1
+			fld		st(1)
+			fprem
+			sub		esp, 4
+			fst		dword ptr [esp]
+			fxch		st(2)
+			mov		eax, [esp]
+			cmp		eax, 0x80000000
+			jbe		floor_exit
+			fsub		st, st(1)
+
+			floor_exit:
+
+			fsub		st, st(2)
+			fstp		st(1)
+			fstp		st(1)
+			pop		eax
+			ret		8
 		}
 	}
 
