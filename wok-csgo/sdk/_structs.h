@@ -65,18 +65,20 @@ public:
 	VFUNC_SIG(reset(), "client.dll", "56 6A 01 68 ? ? ? ? 8B F1", void(__thiscall*)(void*))
 	VFUNC_SIG(create(c_base_entity* entity), "client.dll", "55 8B EC 56 8B F1 B9 ? ? ? ? C7 46", void(__thiscall*)(void*, c_base_entity*), entity)
 	VFUNC_SIG(get_weapon_prefix(), "client.dll", "53 56 57 8B F9 33 F6 8B 4F 60 8B 01 FF 90", const char*(__thiscall*)(void*))
-
+	
 	__forceinline float get_body_yaw_modifier() const {
-		const auto v48 = m_feet_speed_forwards_or_sideways >= 0.f ? fminf(m_feet_speed_forwards_or_sideways, 1.f) : 0.f;
-		const auto v49 = ((m_stop_to_full_running_fraction * -0.30000001f) - 0.19999999f) * v48;
-		const auto v51 = v49 + 1.f;
+		const auto move_velocity = math::clamp(m_forward_walk_speed, 0.f, 1.f);
 
-		if (m_duck_amount <= 0.f)
-			return v51;
+		const auto run_velocity = ((m_walk_to_run_transition * -0.30000001f) - 0.19999999f) * move_velocity;
+		const auto modifier = run_velocity + 1.f;
 
-		const auto v53 = m_feet_speed_unknown_forward_or_sideways >= 0.f ? fminf(m_feet_speed_unknown_forward_or_sideways, 1.f) : 0.f;
+		if (m_duck_amount > 0.f) {
+			const auto crouch_velocity = math::clamp(m_forward_crouch_speed, 0.f, 1.f);
 
-		return v51 + (m_duck_amount * v53) * (0.5f - v51);
+			return modifier + (m_duck_amount * crouch_velocity) * (0.5f - modifier);
+		}
+
+		return modifier;
 	}
 
 	__forceinline void update(qangle_t angle) {
@@ -128,9 +130,9 @@ public:
 	vec3_t					m_velocity_normalized_non_zero;
 	float					m_speed_2d;
 	float					m_up_velocity;
-	float					m_speed_normalized;
-	float					m_feet_speed_forwards_or_sideways;
-	float					m_feet_speed_unknown_forward_or_sideways;
+	float				m_forward_run_speed;
+	float				m_forward_walk_speed;
+	float				m_forward_crouch_speed;
 	float					m_time_since_started_moving;
 	float					m_time_since_stopped_moving;
 	bool					m_on_ground;
@@ -139,7 +141,7 @@ public:
 	float					m_time_since_in_air;
 	float					m_last_origin_z;
 	float					m_head_height_or_offset_from_hitting_ground_animation;
-	float					m_stop_to_full_running_fraction;
+	float					m_walk_to_run_transition;
 	char					pad7[4];
 	float					m_magic_fraction;
 	bool					m_on_ladder;
