@@ -20,7 +20,7 @@ namespace math {
 			fld		qword ptr [esp + 4]
 			fld		st
 			fabs
-			fcom		dword ptr [einhalb]
+			fcom		dword ptr [0.5]
 			fstsw		ax
 			sahf
 			jbe		asin_cont
