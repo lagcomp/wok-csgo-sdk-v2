@@ -3,7 +3,7 @@
 namespace math {
 	constexpr auto m_pi = 3.14159265358979323846f;
 	constexpr auto m_rad_pi = 180.f / m_pi;
-	constexpr auto m_einhalb = 0.5;
+	constexpr auto m_one2 = 0.5;
 	void sin_cos(float rad, float& sin, float& cos);
 
 	__forceinline float rad_to_deg(float rad) { return rad * m_rad_pi; }
@@ -20,7 +20,7 @@ namespace math {
 			fld		qword ptr [esp + 4]
 			fld		st
 			fabs
-			fcom		dword ptr [m_einhalb]
+			fcom		dword ptr [m_one2]
 			fstsw		ax
 			sahf
 			jbe		asin_cont
