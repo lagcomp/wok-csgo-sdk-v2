@@ -1,5 +1,30 @@
 #pragma once
 
+struct jiggle_data_t {
+	jiggle_data_t(int bone, float cur_time, const vec3_t& base_pos, const vec3_t& tip_pos) {
+		m_bone = bone;
+
+		m_last_ipdate = cur_time;
+
+		m_base_pos = m_base_last_pos = base_pos;
+		m_base_velocity = m_base_acceleration = vec3_t();
+
+		m_tip_pos = tip_pos;
+		m_tip_velocity = m_tip_acceleration = vec3_t();
+	}
+
+	int		m_bone;
+	int		m_id;
+	float	m_last_ipdate;
+	vec3_t	m_base_pos;
+	vec3_t	m_base_last_pos;
+	vec3_t	m_base_velocity;
+	vec3_t	m_base_acceleration;
+	vec3_t	m_tip_pos;
+	vec3_t	m_tip_velocity;
+	vec3_t	m_tip_acceleration;
+};
+
 struct player_info_t {
 	int64_t			pad0;
 
@@ -234,31 +259,6 @@ public:
 	float	m_recoil_magnitude_alt;
 	float	m_recoil_magnitude_variance;
 	float	m_recoil_magnitude_variance_alt;
-};
-
-struct jiggle_data_t {
-	int	m_bone;
-	int	m_id;
-	float 	m_last_update;
-	vec3_t	m_base_position;
-	vec3_t	m_base_last_position;
-	vec3_t	m_base_velocity;
-	vec3_t	m_base_accel;
-	vec3_t	m_tip_position;
-	vec3_t	m_tip_velocity;
-	vec3_t	m_tip_acceleration;
-
-	__forceinline void init(int bone, float current_time, const vec3_t& base_position, const vec3_t& tip_position) {
-		m_bone			= bone;
-		m_last_update		= current_time;
-		m_base_position		= base_position;
-		m_base_last_position	= m_base_position;
-		m_base_velocity		= vec3_t();
-		m_base_accel		= vec3_t();
-		m_tip_position		= tip_position;
-		m_tip_velocity		= vec3_t();
-		m_tip_acceleration	= vec3_t();
-	}
 };
 
 enum e_cs_weapon_type {
