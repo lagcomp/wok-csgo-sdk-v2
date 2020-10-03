@@ -236,6 +236,31 @@ public:
 	float	m_recoil_magnitude_variance_alt;
 };
 
+struct jiggle_data_t {
+	int	m_bone;
+	int	m_id;
+	float 	m_last_update;
+	vec3_t	m_base_position;
+	vec3_t	m_base_last_position;
+	vec3_t	m_base_velocity;
+	vec3_t	m_base_accel;
+	vec3_t	m_tip_position;
+	vec3_t	m_tip_velocity;
+	vec3_t	m_tip_acceleration;
+
+	__forceinline void init(int bone, float current_time, const vec3_t& base_position, const vec3_t& tip_position) {
+		m_bone			= bone;
+		m_last_update		= current_time;
+		m_base_position		= base_position;
+		m_base_last_position	= m_base_position;
+		m_base_velocity		= vec3_t();
+		m_base_accel		= vec3_t();
+		m_tip_position		= tip_position;
+		m_tip_velocity		= vec3_t();
+		m_tip_acceleration	= vec3_t();
+	}
+};
+
 enum e_cs_weapon_type {
 	WEAPONTYPE_KNIFE,
 	WEAPONTYPE_PISTOL,
