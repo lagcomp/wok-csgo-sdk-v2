@@ -291,7 +291,7 @@ public:
 	__forceinline void set_pose_parameter(int param, float value) {
 		static const auto studio_set_pose_parameter_fn = SIG("client.dll", "55 8B EC 83 E4 F8 83 EC 08 F3 0F 11 54 24 ? 85 D2").get();
 
-		auto result = 0.0f;
+		auto result = 0.f;
 		auto hdr = get_studio_hdr();
 
 		__asm {
