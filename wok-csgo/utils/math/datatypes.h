@@ -52,12 +52,15 @@ struct vec2_t {
 	}
 
 	__forceinline vec2_t& normalize() {
-		if (const auto l = length()) {
-			x /= l;
-			y /= l;
-		}
+		auto ret = vec2_t();
+		const auto len = length();
+		
+		if (len != 0.f)
+			ret /= len;
+		else
+			ret.x = ret.y = 0.f;
 
-		return *this;
+		return ret;
 	}
 
 	__forceinline vec2_t normalized() const {
@@ -161,13 +164,16 @@ struct vec3_t {
 	}
 
 	__forceinline vec3_t& normalize() {
-		if (const auto l = length()) {
-			x /= l;
-			y /= l;
-			z /= l;
+		auto ret = vec3_t();
+		const auto len = length();
+		
+		if (len != 0.f) {
+			ret /= len;
+		} else {
+			ret.x = ret.y = 0.f; ret.z = 1.f;
 		}
 
-		return *this;
+		return ret;
 	}
 
 	__forceinline vec3_t normalized() const {
