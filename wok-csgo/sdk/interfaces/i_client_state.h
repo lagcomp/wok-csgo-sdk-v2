@@ -54,6 +54,8 @@ public:
 	int				m_sound_sequence;
 	int				m_last_progress_percent;
 	bool			m_is_hltv;
-	char			pad9[291];
+	char			pad9[75];
+	qangle_t		m_view_angles;
+	char			pad10[204];
 	event_info_t*	m_events;
 };
