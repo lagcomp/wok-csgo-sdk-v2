@@ -12,18 +12,18 @@ public:
 
 	__forceinline char* get_default() { return m_default_value; }
 
-	__forceinline bool get_bool() { return !!get_int(); }
+	__forceinline bool get_bool() { return get_int(); }
 
 	__forceinline float get_float() {
-		const auto temp = *reinterpret_cast<int*>(&m_value);
-		auto temp_result = static_cast<int>(temp ^ reinterpret_cast<uintptr_t>(this));
-		return *reinterpret_cast<float*>(&temp_result);
+		const auto xored_value = *reinterpret_cast<int*>(&m_float_value);
+		auto dexored_value = static_cast<int>(xored_value ^ reinterpret_cast<uintptr_t>(this));
+		return *reinterpret_cast<float*>(&dexored_value);
 	}
 
 	__forceinline int get_int() {
-		const auto temp = *reinterpret_cast<int*>(&m_value);
-		auto temp_result = static_cast<int>(temp ^ reinterpret_cast<uintptr_t>(this));
-		return *reinterpret_cast<int*>(&temp_result);
+		const auto xored_value = *reinterpret_cast<int*>(&m_int_value);
+		auto dexored_value = static_cast<int>(xored_value ^ reinterpret_cast<uintptr_t>(this));
+		return *reinterpret_cast<int*>(&dexored_value);
 	}
 
 	char							pad0[4];
@@ -35,10 +35,10 @@ public:
 	char							pad1[4];
 	c_cvar*							m_parent;
 	char*							m_default_value;
-	char*							m_string;
+	char*							m_string_value;
 	int								m_string_length;
-	float							m_value;
-	int								m_num_value;
+	float							m_float_value;
+	int								m_int_value;
 	int								m_has_min;
 	float							m_min_value;
 	int								m_has_max;
