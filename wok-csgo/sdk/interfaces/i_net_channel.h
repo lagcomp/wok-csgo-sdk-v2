@@ -71,7 +71,7 @@ class i_net_channel {
 public:
 	VFUNC(set_time_out(float time), 4, void(__thiscall*)(i_net_channel*, float), time)
 	VFUNC(get_latency(int flow), 9, float(__thiscall*)(i_net_channel*, int), flow)
-	VFUNC(send_netmsg(i_net_msg* msg, bool reliable, bool voice), 40, bool(__thiscall*)(i_net_channel*, i_net_msg*, bool, bool), msg, reliable, voice)
+	VFUNC(send_net_msg(i_net_msg* msg, bool reliable, bool voice), 40, bool(__thiscall*)(i_net_channel*, i_net_msg*, bool, bool), msg, reliable, voice)
 	VFUNC(send_datagram(), 46, int(__thiscall*)(i_net_channel*, void*), nullptr)
 	VFUNC(transmit(bool reliable), 49, bool(__thiscall*)(i_net_channel*, bool), reliable)
 	VFUNC(request_file(const char* file_name), 62, int(__thiscall*)(i_net_channel*, const char*), file_name)
