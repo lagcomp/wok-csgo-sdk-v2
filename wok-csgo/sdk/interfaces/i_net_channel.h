@@ -69,12 +69,12 @@ using i_move_msg_t = i_net_msg_pb<i_move_msg>;
 
 class i_net_channel {
 public:
-	VFUNC(set_time_out(float time), 4, void(__thiscall*)(i_net_channel*, float), time)
-	VFUNC(get_latency(int flow), 9, float(__thiscall*)(i_net_channel*, int), flow)
-	VFUNC(send_net_msg(i_net_msg* msg, bool reliable, bool voice), 40, bool(__thiscall*)(i_net_channel*, i_net_msg*, bool, bool), msg, reliable, voice)
-	VFUNC(send_datagram(), 46, int(__thiscall*)(i_net_channel*, void*), nullptr)
-	VFUNC(transmit(bool reliable), 49, bool(__thiscall*)(i_net_channel*, bool), reliable)
-	VFUNC(request_file(const char* file_name), 62, int(__thiscall*)(i_net_channel*, const char*), file_name)
+	VFUNC(set_time_out(float time), 4, void(__thiscall*)(void*, float), time)
+	VFUNC(get_latency(int flow), 9, float(__thiscall*)(void*, int), flow)
+	VFUNC(send_net_msg(i_net_msg* msg, bool reliable, bool voice), 40, bool(__thiscall*)(void*, i_net_msg*, bool, bool), msg, reliable, voice)
+	VFUNC(send_datagram(), 46, int(__thiscall*)(void*, void*), nullptr)
+	VFUNC(transmit(bool reliable), 49, bool(__thiscall*)(void*, bool), reliable)
+	VFUNC(request_file(const char* file_name), 62, int(__thiscall*)(void*, const char*), file_name)
 
 	__forceinline static uintptr_t* get_vtable() {
 		static const auto vtable = SIG("engine.dll", "C7 06 ? ? ? ? 8D BE ? ? ? ?").self_offset(0x2).cast<uintptr_t*>();
