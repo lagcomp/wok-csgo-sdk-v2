@@ -33,6 +33,8 @@ public:
 	virtual float		get_timeout_seconds() const = 0;
 };
 
+class i_net_channel;
+
 class i_net_msg {
 public:
 	virtual					~i_net_msg() = default;
