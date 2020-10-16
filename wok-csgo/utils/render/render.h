@@ -22,9 +22,9 @@ namespace render {
 
 	void line(const vec2_t& from, const vec2_t& to, const col_t& clr);
 
-	void rect(const vec2_t& pos, const vec2_t& size, const col_t& clr, const float rounding = 0.f);
+	void rect(const vec2_t& pos, const vec2_t& size, const col_t& clr, float rounding = 0.f);
 
-	void rect_filled(const vec2_t& pos, const vec2_t& size, const col_t& clr, const float rounding = 0.f);
+	void rect_filled(const vec2_t& pos, const vec2_t& size, const col_t& clr, float rounding = 0.f);
 
 	void multi_rect(const std::vector<vec2_t>& points, const col_t& clr);
 
