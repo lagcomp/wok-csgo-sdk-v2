@@ -121,7 +121,7 @@ namespace memory {
 			return m_ptr + value;
 		}
 
-		__forceinline address_t& self_offset(uint32_t value) {
+		__forceinline address_t& self_offset(ptrdiff_t value) {
 			m_ptr += value;
 
 			return *this;
