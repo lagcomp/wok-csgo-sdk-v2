@@ -78,11 +78,11 @@ namespace render {
 		m_draw_list->AddLine(utils::force_cast<ImVec2>(from), utils::force_cast<ImVec2>(to), clr.hex());
 	}
 
-	void rect(const vec2_t& pos, const vec2_t& size, const col_t& clr, const float rounding) {
+	void rect(const vec2_t& pos, const vec2_t& size, const col_t& clr, float rounding) {
 		m_draw_list->AddRect(utils::force_cast<ImVec2>(pos), ImVec2(pos.x + size.x, pos.y + size.y), clr.hex(), rounding);
 	}
 
-	void rect_filled(const vec2_t& pos, const vec2_t& size, const col_t& clr, const float rounding) {
+	void rect_filled(const vec2_t& pos, const vec2_t& size, const col_t& clr, float rounding) {
 		m_draw_list->AddRectFilled(utils::force_cast<ImVec2>(pos), ImVec2(pos.x + size.x, pos.y + size.y), clr.hex(), rounding);
 	}
 
