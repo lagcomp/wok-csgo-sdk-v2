@@ -15,8 +15,8 @@ public:
 	__forceinline bool get_bool() { return get_int(); }
 
 	__forceinline float get_float() {
-		const auto xored_value = *reinterpret_cast<float*>(&m_float_value);
-		auto dexored_value = static_cast<float>(xored_value ^ reinterpret_cast<uintptr_t>(this));
+		const auto xored_value = *reinterpret_cast<int*>(&m_float_value);
+		auto dexored_value = static_cast<int>(xored_value ^ reinterpret_cast<uintptr_t>(this));
 		return *reinterpret_cast<float*>(&dexored_value);
 	}
 
