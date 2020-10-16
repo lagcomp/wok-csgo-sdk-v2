@@ -37,12 +37,6 @@ namespace hooks {
 	}
 
 	namespace client_mode {
-		namespace create_move {
-			constexpr auto index = 24u;
-			using T = bool(__stdcall*)(float, c_user_cmd*);
-			bool __stdcall fn(float input_sample_time, c_user_cmd* cmd);
-		}
-
 		namespace override_view {
 			constexpr auto index = 18u;
 			using T = void(__stdcall*)(c_view_setup*);
