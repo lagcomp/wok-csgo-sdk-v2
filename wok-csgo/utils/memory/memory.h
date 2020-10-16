@@ -127,24 +127,7 @@ namespace memory {
 			return *this;
 		}
 
-		__forceinline uint8_t* jmp(ptrdiff_t offset = 0x1) const {
-			/// Base address is the address that follows JMP (0xE9) instruction.
-			auto base = m_ptr + offset;
-
-			/// Store the displacement
-			/// Note: Displacement addresses can be signed, thanks d3x.
-			auto displacement = *reinterpret_cast<int*>(base);
-
-			/// The JMP is based on the instruction after the address
-			/// so the address size has to be added
-			/// Note: This is always 4 bytes, regardless of architecture, thanks d3x
-			base += sizeof(uintptr_t);
-
-			/// Now finally do the JMP by adding the function address
-			base += displacement;
-
-			return base;
-		}
+		__forceinline uint8_t* jmp(ptrdiff_t offset = 0x1) const { return m_ptr + offset + sizeof(uintptr_t) + *reinterpret_cast<int*>(m_ptr + offset); }
 
 		__forceinline address_t& self_jmp(ptrdiff_t offset = 0x1) {
 			m_ptr = jmp(offset);
