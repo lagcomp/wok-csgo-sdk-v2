@@ -25,7 +25,7 @@ struct mstudiobbox_t {
 		return reinterpret_cast<const char*>(reinterpret_cast<const uint8_t*>(this) + m_hitbox_name_index);
 	}
 
-	__forceinline vec3_t get_position(const matrix3x4_t* bones) const { return ((m_obb_min + m_obb_max) * 0.5f).transform(bones[m_bone]); }
+	__forceinline vec3_t get_position(const matrix3x4_t* bones) const { return ((m_obb_min + m_obb_max) / 2.f).transform(bones[m_bone]); }
 };
 
 struct mstudiohitboxset_t {
