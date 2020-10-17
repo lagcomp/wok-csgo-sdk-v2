@@ -22,7 +22,7 @@ public:
 	__forceinline void clear_targets() {
 		auto target = reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + 0xD0);
 
-		for (auto i = 0; i < *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + 4080); i++) {
+		for (auto i = 0; i < *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + 0xFF0); i++) {
 			*target = -9999;
 			target += 85;
 		}
