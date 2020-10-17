@@ -2,6 +2,10 @@
 
 class c_ik_context {
 public:
+	VFUNC_SIG(construct(), "client.dll", "53 8B D9 F6 C3 03 74 0B FF 15 ?? ?? ?? ?? 84 C0 74 01 CC C7 83 ?? ?? ?? ?? ?? ?? ?? ?? 8B CB", void(__thiscall*)(void*))
+
+	VFUNC_SIG(destruct(), "client.dll", "56 8B F1 57 8D 8E ?? ?? ?? ?? E8 ?? ?? ?? ?? 8D 8E ?? ?? ?? ?? E8 ?? ?? ?? ?? 83 BE ?? ?? ?? ?? ??", void(__thiscall*)(void*))
+		
 	VFUNC_SIG(init(c_studio_hdr* hdr, qangle_t& angles, vec3_t& origin, float time, int framecount, int mask), "client.dll", "55 8B EC 83 EC ? 8B 45 ? 56 57 8B F9 8D 8F ? ? ? ?",
 		void(__thiscall*)(void*, c_studio_hdr*, qangle_t&, vec3_t&, float, int, int), hdr, angles, origin, time, framecount, mask)
 
@@ -15,10 +19,10 @@ public:
 	VFUNC_SIG(solve_dependencies(vec3_t* pos, vec4_t* q, matrix3x4_t* bones, uint8_t* computed), "client.dll", "55 8B EC 83 E4 ? 81 EC ? ? ? ? 8B 81 ? ? ? ? 56",
 		void(__thiscall*)(void*, vec3_t*, void*, matrix3x4_t*, uint8_t*), pos, q, bones, computed)
 
-	void clear_targets() {
+	__forceinline void clear_targets() {
 		auto target = reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + 0xD0);
 
-		for (auto i = 0; i < *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + 0xFF0); i++) {
+		for (auto i = 0; i < *reinterpret_cast<int*>(reinterpret_cast<uintptr_t>(this) + 4080); i++) {
 			*target = -9999;
 			target += 85;
 		}
@@ -27,6 +31,39 @@ public:
 
 class c_bone_setup {
 public:
+	__forceinline void init_pose(vec3_t* pos, vec4_t* q, c_studio_hdr* hdr) {
+		static const auto init_pose_fn = SIG("client.dll", "55 8B EC 83 EC 10 53 8B D9 89 55 F8 56 57 89 5D F4 8B 0B 89 4D F0").get();
+		if (!init_pose_fn)
+			return;
+
+		__asm {
+			mov	eax, this
+			mov	esi, q
+			mov	edx, pos
+			push	dword ptr [hdr + 4]
+			mov	ecx, [eax]
+			push	esi
+			call	init_pose_fn
+			add	esp, 8
+		}
+	}
+	
+	__forceinline void calc_autoplay_sequences(vec3_t* pos, vec4_t* q, float time, c_ik_context* ik)  {
+		static const auto calc_autoplay_sequences_fn = SIG("client.dll", "55 8B EC 83 EC 10 53 56 57 8B 7D 10 8B D9 F3 0F 11 5D ??").get();
+		if (!calc_autoplay_sequences_fn)
+			return;
+
+		__asm {
+			movss xmm3, time
+			mov	eax, ik
+			mov	ecx, this
+			push	eax
+			push	q
+			push	pos
+			call	calc_autoplay_sequences_fn
+		}
+	}
+	
 	VFUNC_SIG(accumulate_pose(vec3_t* pos, vec4_t* q, int sequence, float cycle, float weight, float time, c_ik_context* ik),
 		"client.dll", "55 8B EC 83 E4 F0 B8 ? ? ? ? E8 ? ? ? ? A1", void(__thiscall*)(void*, vec3_t*, vec4_t*, int, float, float, float, c_ik_context*), pos, q, sequence, cycle, weight, time, ik)
 };
