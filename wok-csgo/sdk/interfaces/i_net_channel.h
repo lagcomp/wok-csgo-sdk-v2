@@ -25,8 +25,8 @@ public:
 	virtual float		get_packet_time(int flow, int frame_number) const = 0;
 	virtual int			get_packet_bytes(int flow, int frame_number, int group) const = 0;
 	virtual bool		get_stream_progress(int flow, int* received, int* total) const = 0;
-	virtual float		get_time_since_last_received(void) const = 0;
-	virtual	float		get_command_interpolation_amount(int flow, int frame_number) const = 0;
+	virtual float		get_time_since_last_received() const = 0;
+	virtual float		get_command_interpolation_amount(int flow, int frame_number) const = 0;
 	virtual void		get_packet_response_latency(int flow, int frame_number, int* latency, int* choke) const = 0;
 	virtual void		get_remote_framerate(float* frame_time, float* frame_time_std_deviation) const = 0;
 
@@ -38,11 +38,11 @@ class i_net_channel;
 class i_net_msg {
 public:
 	virtual					~i_net_msg() = default;
-	virtual void			set_net_channel(void* net_channel) = 0;
+	virtual void			set_net_channel(i_net_channel* net_channel) = 0;
 	virtual void			set_reliable(bool state) = 0;
 	virtual bool			process() = 0;
-	virtual	bool			read_from_buffer(void* buffer) = 0;
-	virtual	bool			write_to_buffer(void* buffer) = 0;
+	virtual bool			read_from_buffer(bf_read* buffer) = 0;
+	virtual bool			write_to_buffer(bf_write* buffer) = 0;
 	virtual bool			is_reliable() const = 0;
 	virtual int				get_type() const = 0;
 	virtual int				get_group() const = 0;
