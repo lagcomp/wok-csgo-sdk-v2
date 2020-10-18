@@ -54,7 +54,7 @@ struct surfacedata_t {
 
 class i_surface_data {
 public:
-	virtual					~i_surface_data() {}
+	virtual					~i_surface_data() = default;
 	virtual int				parse_surface_data(const char* filename, const char* textfile) = 0;
 	virtual int				surface_prop_count() const = 0;
 	virtual int				get_surface_index(const char* name) const = 0;
