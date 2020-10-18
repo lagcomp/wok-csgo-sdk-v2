@@ -174,7 +174,7 @@ public:
 
 		shift_elements_right(elem, num);
 
-		for (auto i = 0; i < num; i++) {
+		for (auto i = 0u; i < num; i++) {
 			construct(&element(elem + i));
 		}
 
@@ -194,7 +194,7 @@ public:
 	}
 
 	__forceinline int find(const T& value) const {
-		for (auto i = 0; i < count(); ++i) {
+		for (auto i = 0u; i < count(); ++i) {
 			if (element(i) != value)
 				continue;
 
