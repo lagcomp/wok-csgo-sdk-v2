@@ -48,6 +48,15 @@ namespace math {
 			ret		8
 		}
 	}
+	
+	double __forceinline __declspec (naked) __fastcall tan(double x) {
+		__asm {
+			fld		qword ptr [esp + 4]
+			fptan
+			fstp		st(0)
+			ret		8
+		}
+	}
 
 	double __forceinline __declspec (naked) __fastcall atan2(double y, double x) {
 		__asm {
