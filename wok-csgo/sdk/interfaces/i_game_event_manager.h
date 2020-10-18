@@ -2,7 +2,7 @@
 
 class i_game_event {
 public:
-	virtual					~i_game_event() = 0;
+	virtual					~i_game_event() = default;
 	virtual const char*		get_name() const = 0;
 
 	virtual bool			is_reliable() const = 0;
@@ -28,14 +28,14 @@ public:
 
 class i_game_event_listener {
 public:
-	virtual			~i_game_event_listener() {}
+	virtual			~i_game_event_listener() = default;
 	virtual void	fire_game_event(i_game_event* event) = 0;
 	virtual int		get_event_debug_id() { return EVENT_DEBUG_ID_INIT; }
 };
 
 class i_game_event_manager {
 public:
-	virtual					~i_game_event_manager() {};
+	virtual					~i_game_event_manager() = default;
 	virtual int				load_events_from_file(const char* name) = 0;
 	virtual void			reset() = 0;
 	virtual bool			add_listener(i_game_event_listener* listener, const char* name, bool server_side) = 0;
