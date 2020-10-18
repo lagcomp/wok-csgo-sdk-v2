@@ -64,6 +64,24 @@ public:
 		}
 	}
 	
+	__forceinline void calc_bone_adj(vec3_t* pos, vec4_t* q, float* controllers, int bone_mask) {
+		static const auto calc_bone_adj_fn = SIG("client.dll", "55 8B EC 83 E4 F8 81 EC ?? ?? ?? ?? 8B C1 89 54 24 04 89 44 24 2C 56 57 8B 00").get();
+		if (!calc_bone_adj_fn)
+			return;
+
+		__asm {
+			mov   eax, controllers
+			mov   ecx, this
+			mov   edx, pos
+			push  dword ptr [ecx + 4]
+			mov   ecx, [ecx]
+			push  eax
+			push  q
+			call  calc_bone_adj_fn
+			add   esp, 12
+		}
+	}
+	
 	VFUNC_SIG(accumulate_pose(vec3_t* pos, vec4_t* q, int sequence, float cycle, float weight, float time, c_ik_context* ik),
 		"client.dll", "55 8B EC 83 E4 F0 B8 ? ? ? ? E8 ? ? ? ? A1", void(__thiscall*)(void*, vec3_t*, vec4_t*, int, float, float, float, c_ik_context*), pos, q, sequence, cycle, weight, time, ik)
 };
@@ -292,7 +310,7 @@ public:
 
 		const auto view_offset = get_view_offset();
 
-		ret.z -= view_offset.z - floor(view_offset.z);
+		ret.z -= view_offset.z - math::floor(view_offset.z);
 
 		return ret;
 	}
