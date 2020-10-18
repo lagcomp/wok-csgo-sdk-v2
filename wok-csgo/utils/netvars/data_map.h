@@ -47,14 +47,14 @@ struct type_description_t {
 	const char*			m_field_name;
 	int					m_field_offset;
 	uint16_t			m_field_size;
-	short				m_flags;
+	uint16_t				m_flags; // Maybe use bitflag here?
 	const char*			m_external_name;
 	uintptr_t*			m_save_restore_ops;
 	input_fn_t			m_input_fn;
 	data_map_t*			m_data_map;
-	int					m_field_size_in_bytes;
+	uint32_t					m_field_size_in_bytes;
 	type_description_t*	m_override_field;
-	int					m_override_count;
+	uint32_t					m_override_count;
 	float				m_field_tolerance;
 	int					m_flat_offset[2];
 	uint16_t			m_flat_group;
@@ -65,7 +65,7 @@ struct data_map_t {
 		auto data_map = this;
 
 		while (data_map) {
-			for (auto i = 0; i < data_map->m_data_num_fields; i++) {
+			for (auto i = 0u; i < data_map->m_data_fields_count; i++) {
 				if (!data_map->m_data_description[i].m_field_name)
 					continue;
 
@@ -90,7 +90,7 @@ struct data_map_t {
 	}
 
 	type_description_t*	m_data_description;
-	int                 m_data_num_fields;
+	int                 m_data_fields_count;
 	char const*			m_data_class_name;
 	data_map_t*			m_base_map;
 
