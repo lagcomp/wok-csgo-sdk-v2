@@ -47,7 +47,7 @@ struct type_description_t {
 	const char*			m_field_name;
 	int					m_field_offset;
 	uint16_t			m_field_size;
-	uint16_t				m_flags; // Maybe use bitflag here?
+	bit_flag_t<uint16_t>				m_flags;
 	const char*			m_external_name;
 	uintptr_t*			m_save_restore_ops;
 	input_fn_t			m_input_fn;
