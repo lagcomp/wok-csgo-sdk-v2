@@ -60,7 +60,7 @@ public:
 class c_recv_table {
 public:
 	c_recv_prop*	m_props;
-	int				m_num_props;
+	int				m_props_count;
 	void*			m_decoder;
 	char*			m_net_table_name;
 	bool			m_initialized;
