@@ -28,10 +28,10 @@ namespace wok {
 	}
 
 	void unload() {
+		events::undo();
+		
 		hooks::undo();
 
 		input::undo();
-
-		events::undo();
 	}
 }
