@@ -12,7 +12,7 @@ namespace netvars {
 	}
 
 	void dump_recursive(const char* base_class, c_recv_table* table, uint32_t offset) {
-		for (auto i = 0; i < table->m_num_props; i++) {
+		for (auto i = 0u; i < table->m_props_count; i++) {
 			const auto prop = &table->m_props[i];
 			if (!prop
 				|| isdigit(prop->m_var_name[0])
