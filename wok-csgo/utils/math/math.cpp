@@ -51,4 +51,16 @@ namespace math {
 
 		return angles.normalize();
 	}
+	
+	float angle_diff(float dest_angle, float src_angle)
+	{
+		float delta = dest_angle - src_angle;
+		
+		if (delta < -180.0f)
+			delta += 360.0f;
+		else if (delta > 180.0f)
+			delta -= 360.0f;
+		
+		return delta;
+	}
 }
