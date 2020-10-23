@@ -56,7 +56,7 @@ void __stdcall hooks::client_dll::create_move::fn(int sequence_number, float inp
 	g::angles::real = cmd->m_view_angles;
 
 	movement->fix(g::angles::view, cmd->m_view_angles);
-
+        movement->bhop();
 	cmd->m_move.x = math::clamp(cmd->m_move.x, -450.f, 450.f);
 	cmd->m_move.y = math::clamp(cmd->m_move.y, -450.f, 450.f);
 	cmd->m_move.z = math::clamp(cmd->m_move.z, -320.f, 320.f);
