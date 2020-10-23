@@ -140,4 +140,6 @@ namespace math {
 	void angle_vectors(const qangle_t& angles, vec3_t* forward, vec3_t* right = nullptr, vec3_t* up = nullptr);
 
 	qangle_t calc_angle(const vec3_t& src, const vec3_t& dst);
+	
+	float angle_diff(float dst_angle, float src_angle);
 }
