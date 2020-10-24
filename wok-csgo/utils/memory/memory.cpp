@@ -33,7 +33,7 @@ namespace memory {
 
 			const auto module = module_t(ldr_entry, headers);
 
-			m_modules[FNV1A_RT(module.get_name().c_str())] = module;
+			m_modules[HASH_RT(module.get_name().c_str())] = module;
 		}
 	}
 
@@ -123,7 +123,7 @@ namespace memory {
 			return address_t();
 
 		for (auto i = 0u; i < export_directory->NumberOfNames; i++) {
-			if (FNV1A_RT(reinterpret_cast<const char*>(base.offset(names[i]))) != export_hash)
+			if (HASH_RT(reinterpret_cast<const char*>(base.offset(names[i]))) != export_hash)
 				continue;
 
 			const auto export_addr = address_t(base.offset(funcs[ords[i]]));
@@ -136,7 +136,7 @@ namespace memory {
 				if (offset == std::string::npos)
 					return address_t();
 
-				return get_export(FNV1A_RT(forward.substr(0u, offset).append(_("dll")).c_str()), FNV1A_RT(forward.substr(offset).c_str()));
+				return get_export(HASH_RT(forward.substr(0u, offset).append(_("dll")).c_str()), HASH_RT(forward.substr(offset).c_str()));
 			}
 
 			return export_addr;

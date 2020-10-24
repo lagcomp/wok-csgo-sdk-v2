@@ -1,9 +1,9 @@
 #include "events.h"
 
-#define ADD_CALLBACK(name, fn) m_callbacks[FNV1A(name)] = fn; interfaces::event_manager->add_listener(&m_listener, _(name), false);
+#define ADD_CALLBACK(name, fn) m_callbacks[HASH(name)] = fn; interfaces::event_manager->add_listener(&m_listener, _(name), false);
 
 namespace events {
-	void c_listener::fire_game_event(i_game_event* event) { m_callbacks.at(FNV1A_RT(event->get_name()))(event); }
+	void c_listener::fire_game_event(i_game_event* event) { m_callbacks.at(HASH_RT(event->get_name()))(event); }
 
 	void init() {
 		ADD_CALLBACK("player_hurt", player_hurt);

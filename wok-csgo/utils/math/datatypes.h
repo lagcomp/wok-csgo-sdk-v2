@@ -261,7 +261,7 @@ struct vec4_t : public vec3_t {
 	float w = 0.f;
 };
 
-struct ALIGN16 vec4a_t : public vec3_t {
+struct __declspec(align(16)) vec4a_t : public vec3_t {
 	vec4a_t() = default;
 	vec4a_t(float ix, float iy, float iz) {
 		x = ix;
@@ -708,7 +708,7 @@ struct matrix3x4_t {
 	std::array<vec4_t, 3u> m_value = {};
 };
 
-struct ALIGN16 matrix3x4a_t : public matrix3x4_t {
+struct __declspec(align(16)) matrix3x4a_t : public matrix3x4_t {
 
 };
 

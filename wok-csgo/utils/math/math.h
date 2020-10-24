@@ -24,32 +24,6 @@ namespace math {
 		}
 	}
 
-	double __forceinline __declspec (naked) __fastcall cos(double x) {
-		__asm {
-			fld	qword ptr [esp + 4]
-			fcos
-			ret	8
-		}
-	}
-
-	double __forceinline __declspec (naked) __fastcall atan2(double y, double x) {
-		__asm {
-			fld	qword ptr [esp + 4]
-			fld	qword ptr [esp + 12]
-			fpatan
-			ret	16
-		}
-	}
-
-	double __forceinline __declspec (naked) __fastcall atan(double x) {
-		__asm {
-			fld	qword ptr [esp + 4]
-			fld1
-			fpatan
-			ret	8
-		}
-	}
-
 	double __forceinline __declspec (naked) __fastcall asin(double x) {
 		__asm {
 			fld	qword ptr [esp + 4]
@@ -71,14 +45,63 @@ namespace math {
 
 			skip:
 			fstp st(0)
-			fld	st(0)
-			fmul st(0), st(0)
-			fld1
-			fsubrp st(1), st(0)
+				fld	st(0)
+				fmul st(0), st(0)
+				fld1
+				fsubrp st(1), st(0)
 
-			end:
+				end:
+				fsqrt
+				fpatan
+				ret	8
+		}
+	}
+
+	double __forceinline __declspec (naked) __fastcall sinh(double x) {
+		__asm {
+			fld		qword ptr [esp + 4]
+			fldl2e
+			fmulp		st(1), st
+			fld1
+			fld		st(1)
+			fprem
+			f2xm1
+			faddp		st(1), st
+			fscale
+			fxch
+			fstp		st
+			fld1
+			fdiv		st, st(1)
+			fsubp		st(1), st
+			mov		eax, 0x3F000000
+			push		eax
+			fld		dword ptr [esp]
+			fmulp		st(1), st
+			pop		eax
+			ret		8
+		}
+	}
+
+	double __forceinline __declspec (naked) __fastcall asinh(double x) {
+		__asm {
+			fld		qword ptr [esp + 4]
+			fld		st
+			fmul		st, st
+			fld1
+			faddp		st(1), st
 			fsqrt
-			fpatan
+			faddp		st(1), st
+			fldln2
+			fxch
+			fyl2x
+			ret		8
+		}
+	}
+
+	double __forceinline __declspec (naked) __fastcall cos(double x) {
+		__asm {
+			fld	qword ptr [esp + 4]
+			fcos
 			ret	8
 		}
 	}
@@ -105,12 +128,129 @@ namespace math {
 
 			skip:
 			fld1
-			fldz
+				fldz
 
-			end:
+				end:
 			fpatan
-			fadd st(0), st(0)
+				fadd st(0), st(0)
+				ret	8
+		}
+	}
+
+	double __forceinline __declspec (naked) __fastcall cosh(double x) {
+		__asm {
+			fld		qword ptr [esp + 4]
+			fldl2e
+			fmulp		st(1), st
+			fld1
+			fld		st(1)
+			fprem
+			f2xm1
+			faddp		st(1), st
+			fscale
+			fxch
+			fstp		st
+			fld1
+			fdiv		st, st(1)
+			faddp		st(1), st
+			mov		eax, 0x3F000000
+			push		eax
+			fld		dword ptr [esp]
+			fmulp		st(1), st
+			pop		eax
+			ret		8
+		}
+	}
+
+	double __forceinline __declspec (naked) __fastcall acosh(double x) {
+		__asm {
+			fld		qword ptr [esp + 4]
+			fld		st
+			fmul		st, st
+			fld1
+			fsubp		st(1), st
+			fsqrt
+			faddp		st(1), st
+			fldln2
+			fxch
+			fyl2x
+			ret		8
+		}
+	}
+
+	double __forceinline __declspec (naked) __fastcall tan(double x) {
+		__asm {
+			fld		qword ptr [esp + 4]
+			fptan
+			fstp		st(0)
+			ret		8
+		}
+	}
+
+	double __forceinline __declspec (naked) __fastcall atan(double x) {
+		__asm {
+			fld	qword ptr [esp + 4]
+			fld1
+			fpatan
 			ret	8
+		}
+	}
+
+	double __forceinline __declspec (naked) __fastcall atan2(double y, double x) {
+		__asm {
+			fld	qword ptr [esp + 4]
+			fld	qword ptr [esp + 12]
+			fpatan
+			ret	16
+		}
+	}
+
+	double __forceinline __declspec (naked) __fastcall tanh(double x) {
+		__asm {
+			fld		qword ptr [esp + 4]
+			fld		st
+			mov		eax, 0x40000000
+			push		eax
+			fld		dword ptr [esp]
+			fmul		st, st(1)
+			fldl2e
+			fmulp		st(1), st
+			fld1
+			fld		st(1)
+			fprem
+			f2xm1
+			faddp		st(1), st
+			fscale
+			fxch
+			fstp		st
+			fld1
+			fsub		st, st(1)
+			fchs
+			fld1
+			faddp		st(2), st
+			fdivrp	st(1), st
+			pop		eax
+			ret		8
+		}
+	}
+
+	double __forceinline __declspec (naked) __fastcall atanh(double x) {
+		__asm {
+			fld		qword ptr [esp + 4]
+			fld1
+			fsub		st, st(1)
+			fld1
+			faddp		st(2), st
+			fdivrp	st(1), st
+			fldln2
+			fxch
+			fyl2x
+			mov		eax, 0xBF000000
+			push		eax
+			fld		dword ptr [esp]
+			fmulp		st(1), st
+			pop		eax
+			ret		8
 		}
 	}
 	

@@ -166,4 +166,8 @@ namespace xor_str {
 
 #define CREATE_XOR_STR(txt) xor_str::create([]() { return txt; }, std::make_index_sequence<sizeof(txt) / sizeof(*txt)>(), std::make_index_sequence<xor_str::detail::get_buffer_size<sizeof(txt)>()>())
 
+#ifdef _DEBUG
+#define _(txt) (txt)
+#else
 #define _(txt) CREATE_XOR_STR(txt).get()
+#endif

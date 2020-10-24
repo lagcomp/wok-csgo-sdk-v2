@@ -3,8 +3,8 @@
 #include "events/events.h"
 
 namespace wok {
-	void init() {
-		while (memory::m_modules.find(FNV1A("serverbrowser.dll")) == memory::m_modules.end()) {
+	__forceinline void init() {
+		while (memory::m_modules.find(HASH("serverbrowser.dll")) == memory::m_modules.end()) {
 			memory::get_all_modules();
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(200u));
@@ -27,7 +27,7 @@ namespace wok {
 		events::init();
 	}
 
-	void unload() {
+	__forceinline void unload() {
 		events::undo();
 		
 		hooks::undo();

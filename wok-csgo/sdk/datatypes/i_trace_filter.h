@@ -3,16 +3,16 @@
 class i_handle_entity;
 
 struct surface_t {
-	const char*	m_name;
-	short		m_surface_props;
-	uint16_t	m_flags;
+	const char*				m_name;
+	short						m_surface_props;
+	bit_flag_t<uint16_t>	m_flags;
 };
 
 struct plane_t {
 	vec3_t		m_normal;
 	float		m_dist;
 	char		m_type;
-	char		m_signbits;
+	char		m_sign_bits;
 	char		pad0[2];
 };
 
@@ -105,10 +105,10 @@ struct ray_t {
 		m_world_axis_transform = nullptr;
 		m_is_swept = m_delta.length_sqr();
 
-		m_extents = (maxs - mins) * 0.5f;
+		m_extents = (maxs - mins) / 2.f;
 		m_is_ray = m_extents.length_sqr() < 1e-6;
 
-		m_start_offset = (maxs + mins) * 0.5f;
+		m_start_offset = (maxs + mins) / 2.f;
 		m_start = (start + m_start_offset) * -1.f;
 	}
 
@@ -125,27 +125,27 @@ class c_base_trace {
 public:
 	c_base_trace() = default;
 
-	__forceinline bool is_disp_surface() { return m_disp_flags & DISPSURF_FLAG_SURFACE; }
+	__forceinline bool is_disp_surface() { return m_flags.has(DISPSURF_FLAG_SURFACE); }
 
-	__forceinline bool is_disp_surface_walkable() { return m_disp_flags & DISPSURF_FLAG_WALKABLE; }
+	__forceinline bool is_disp_surface_walkable() { return m_flags.has(DISPSURF_FLAG_WALKABLE); }
 
-	__forceinline bool is_disp_surface_buildable() { return m_disp_flags & DISPSURF_FLAG_BUILDABLE; }
+	__forceinline bool is_disp_surface_buildable() { return m_flags.has(DISPSURF_FLAG_BUILDABLE); }
 
-	__forceinline bool is_disp_surface_prop1() { return m_disp_flags & DISPSURF_FLAG_SURFPROP1; }
+	__forceinline bool is_disp_surface_prop1() { return m_flags.has(DISPSURF_FLAG_SURFPROP1); }
 
-	__forceinline bool is_disp_surface_prop2() { return m_disp_flags & DISPSURF_FLAG_SURFPROP2; }
+	__forceinline bool is_disp_surface_prop2() { return m_flags.has(DISPSURF_FLAG_SURFPROP2); }
 
-	vec3_t		m_start_pos;
-	vec3_t		m_end_pos;
-	plane_t		m_plane;
+	vec3_t					m_start_pos;
+	vec3_t					m_end_pos;
+	plane_t					m_plane;
 
-	float		m_fraction;
+	float						m_fraction;
 
-	int		m_contents;
-	unsigned short	m_disp_flags;
+	int						m_contents;
+	bit_flag_t<uint16_t>	m_flags;
 
-	bool		m_all_solid;
-	bool		m_start_solid;
+	bool						m_all_solid;
+	bool						m_start_solid;
 };
 
 class c_game_trace : public c_base_trace {

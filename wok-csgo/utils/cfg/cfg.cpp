@@ -1,9 +1,9 @@
 #include "../utils.h"
 
-#define ADD_ITEM(type, name, def) m_items[FNV1A(name)] = { FNV1A(#type), std::make_any<type>(def) };
-#define ADD_ITEM_FLOAT_VEC(name, ...) m_items[FNV1A(name)] = { FNV1A("std::vector<float>"), std::make_any<std::vector<float>>({ __VA_ARGS__ }) };
-#define ADD_ITEM_INT_VEC(name, ...) m_items[FNV1A(name)] = { FNV1A("std::vector<int>"), std::make_any<std::vector<int>>({ __VA_ARGS__ }) };
-#define ADD_ITEM_BOOL_VEC(name, ...) m_items[FNV1A(name)] = { FNV1A("std::vector<bool>"), std::make_any<std::vector<bool>>({ __VA_ARGS__ }) };
+#define ADD_ITEM(type, name, def) m_items[HASH(name)] = { HASH(#type), std::make_any<type>(def) };
+#define ADD_ITEM_FLOAT_VEC(name, ...) m_items[HASH(name)] = { HASH("std::vector<float>"), std::make_any<std::vector<float>>({ __VA_ARGS__ }) };
+#define ADD_ITEM_INT_VEC(name, ...) m_items[HASH(name)] = { HASH("std::vector<int>"), std::make_any<std::vector<int>>({ __VA_ARGS__ }) };
+#define ADD_ITEM_BOOL_VEC(name, ...) m_items[HASH(name)] = { HASH("std::vector<bool>"), std::make_any<std::vector<bool>>({ __VA_ARGS__ }) };
 
 namespace cfg {
 	void init() {
@@ -25,10 +25,10 @@ namespace cfg {
 			cur[_("type")] = item.second.m_type;
 
 			switch (item.second.m_type) {
-			case FNV1A("bool"): cur[_("inner")] = item.second.get<bool>(); break;
-			case FNV1A("float"): cur[_("inner")] = item.second.get<float>(); break;
-			case FNV1A("int"): cur[_("inner")] = item.second.get<int>(); break;
-			case FNV1A("col_t"): {
+			case HASH("bool"): cur[_("inner")] = item.second.get<bool>(); break;
+			case HASH("float"): cur[_("inner")] = item.second.get<float>(); break;
+			case HASH("int"): cur[_("inner")] = item.second.get<int>(); break;
+			case HASH("col_t"): {
 				const auto clr = item.second.get<col_t>();
 
 				nlohmann::json sub;
@@ -39,7 +39,7 @@ namespace cfg {
 
 				cur[_("inner")] = sub.dump();
 			} break;
-			case FNV1A("std::vector<int>"): {
+			case HASH("std::vector<int>"): {
 				const auto vec = item.second.get<std::vector<int>>();
 
 				nlohmann::json sub;
@@ -50,7 +50,7 @@ namespace cfg {
 
 				cur[_("inner")] = sub.dump();
 			} break;
-			case FNV1A("std::vector<float>"): {
+			case HASH("std::vector<float>"): {
 				const auto vec = item.second.get<std::vector<float>>();
 
 				nlohmann::json sub;
@@ -61,7 +61,7 @@ namespace cfg {
 
 				cur[_("inner")] = sub.dump();
 			} break;
-			case FNV1A("std::vector<bool>"): {
+			case HASH("std::vector<bool>"): {
 				const auto vec = item.second.get<std::vector<bool>>();
 
 				nlohmann::json sub;
@@ -105,15 +105,15 @@ namespace cfg {
 			auto& cur_item = m_items.at(hash);
 
 			switch (item["type"].get<uint32_t>()) {
-			case FNV1A("bool"): cur_item.set<bool>(item[_("inner")].get<bool>()); break;
-			case FNV1A("float"): cur_item.set<float>(item[_("inner")].get<float>()); break;
-			case FNV1A("int"): cur_item.set<int>(item[_("inner")].get<int>()); break;
-			case FNV1A("col_t"): {
+			case HASH("bool"): cur_item.set<bool>(item[_("inner")].get<bool>()); break;
+			case HASH("float"): cur_item.set<float>(item[_("inner")].get<float>()); break;
+			case HASH("int"): cur_item.set<int>(item[_("inner")].get<int>()); break;
+			case HASH("col_t"): {
 				const auto vec = nlohmann::json::parse(item[_("inner")].get<std::string>());
 
 				cur_item.set<col_t>(col_t(vec.at(0u).get<uint8_t>(), vec.at(1u).get<uint8_t>(), vec.at(2u).get<uint8_t>(), vec.at(3u).get<uint8_t>()));
 			} break;
-			case FNV1A("std::vector<int>"): {
+			case HASH("std::vector<int>"): {
 				const auto vec = nlohmann::json::parse(item[_("inner")].get<std::string>());
 
 				auto& item_vec = cur_item.get<std::vector<int>>();
@@ -125,7 +125,7 @@ namespace cfg {
 					item_vec.at(i) = vec.at(i).get<int>();
 				}
 			} break;
-			case FNV1A("std::vector<float>"): {
+			case HASH("std::vector<float>"): {
 				const auto vec = nlohmann::json::parse(item[_("inner")].get<std::string>());
 
 				auto& item_vec = cur_item.get<std::vector<float>>();
@@ -137,7 +137,7 @@ namespace cfg {
 					item_vec.at(i) = vec.at(i).get<float>();
 				}
 			} break;
-			case FNV1A("std::vector<bool>"): {
+			case HASH("std::vector<bool>"): {
 				const auto vec = nlohmann::json::parse(item[_("inner")].get<std::string>());
 
 				auto& item_vec = cur_item.get<std::vector<bool>>();

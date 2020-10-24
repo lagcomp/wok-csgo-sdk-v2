@@ -3,7 +3,7 @@
 class i_glow_object_manager {
 public:
 	struct glow_object_t {
-		__forceinline void set(const col_t& clr, int style) {
+		__forceinline void set(const col_t& clr, e_glow_style style = GLOWSTYLE_DEFAULT) {
 			m_red = clr.r() / 255.f;
 			m_green = clr.g() / 255.f;
 			m_blue = clr.b() / 255.f;
@@ -34,7 +34,7 @@ public:
 		bool				m_full_bloom_render;
 		bool				m_alpha_depends_by_render_alpha;
 		int					m_full_bloom_stencil_test_value;
-		int					m_glow_style;
+		e_glow_style		m_glow_style;
 		int					m_split_screen_slot;
 		int					m_next_free_slot;
 	};

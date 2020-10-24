@@ -38,7 +38,7 @@ public:
 	int				m_player_slot;
 	bool			m_paused;
 	char			pad6[3];
-	char			m_level_name[260];
+	char			m_level_name[MAX_OS_PATH];
 	char			m_level_name_short[40];
 	char			pad7[212];
 	int				m_max_clients;

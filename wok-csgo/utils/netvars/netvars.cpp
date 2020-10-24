@@ -31,7 +31,7 @@ namespace netvars {
 			strcat_s(name, _("->"));
 			strcat_s(name, prop->m_var_name);
 
-			m_list[FNV1A_RT(name)] = std::make_pair(prop, static_cast<uint32_t>(offset + prop->m_offset));
+			m_list[HASH_RT(name)] = std::make_pair(prop, static_cast<uint32_t>(offset + prop->m_offset));
 		}
 	}
 

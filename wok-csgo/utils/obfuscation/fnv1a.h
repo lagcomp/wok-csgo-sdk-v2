@@ -32,5 +32,5 @@ namespace hash {
 	}
 }
 
-#define FNV1A(txt) CONSTANT(hash::fnv1a::ct(txt))
-#define FNV1A_RT(txt) hash::fnv1a::rt(txt)
+#define HASH(txt) CONSTANT(hash::fnv1a::ct(txt))
+#define HASH_RT(txt) hash::fnv1a::rt(txt)

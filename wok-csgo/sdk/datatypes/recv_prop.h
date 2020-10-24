@@ -39,21 +39,21 @@ using recv_var_proxy_fn = void(__cdecl*)(recv_proxy_data_t*, void*, void*);
 struct recv_table_t;
 
 struct recv_prop_t {
-	char*				m_var_name;
-	e_send_prop_type	m_recv_type;
-	int					m_flags;
-	int					m_string_buffer_size;
-	bool				m_inside_array;
-	const void*			m_extra_data;
-	recv_prop_t*		m_array_prop;
-	void*				m_array_length_proxy;
-	recv_var_proxy_fn	m_proxy_fn;
-	void*				m_data_table_proxy_fn;
-	recv_table_t*		m_data_table;
-	int					m_offset;
-	int					m_element_stride;
-	int					m_elements;
-	const char*			m_parent_array_prop_name;
+	char*						m_var_name;
+	e_send_prop_type		m_recv_type;
+	bit_flag_t<uint32_t>	m_flags;
+	int						m_string_buffer_size;
+	bool						m_inside_array;
+	const void*				m_extra_data;
+	recv_prop_t*			m_array_prop;
+	void*						m_array_length_proxy;
+	recv_var_proxy_fn		m_proxy_fn;
+	void*						m_data_table_proxy_fn;
+	recv_table_t*			m_data_table;
+	int						m_offset;
+	int						m_element_stride;
+	int						m_elements;
+	const char*				m_parent_array_prop_name;
 };
 
 struct recv_table_t {

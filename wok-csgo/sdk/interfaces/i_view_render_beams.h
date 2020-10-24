@@ -33,12 +33,10 @@ struct beam_info_t {
 	float				m_speed;
 	int					m_start_frame;
 	float				m_framerate;
-	float				m_red;
-	float				m_green;
-	float				m_blue;
+	col_t				m_color;
 	bool				m_renderable;
 	int					m_segments;
-	int					m_flags;
+	bit_flag_t<uint32_t>	m_flags;
 	vec3_t				m_center;
 	float				m_start_radius;
 	float				m_end_radius;

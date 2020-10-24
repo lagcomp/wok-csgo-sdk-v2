@@ -14,43 +14,43 @@ namespace netvars {
 
 #define NETVAR(func, type, name) \
 	__forceinline type& func { \
-		static const auto offset = netvars::get<uint32_t>(FNV1A(name)); \
+		static const auto offset = netvars::get<uint32_t>(HASH(name)); \
 		return *reinterpret_cast<type*>(reinterpret_cast<uintptr_t>(this) + offset); \
 	}
 
 #define ANETVAR(func, type, size, name) \
 	__forceinline std::array<type, size>& func { \
-		static const auto offset = netvars::get<uint32_t>(FNV1A(name)); \
+		static const auto offset = netvars::get<uint32_t>(HASH(name)); \
 		return *reinterpret_cast<std::array<type, size>*>(reinterpret_cast<uintptr_t>(this) + offset); \
 	}
 
 #define PNETVAR(func, type, name) \
 	__forceinline type* func { \
-		static const auto offset = netvars::get<uint32_t>(FNV1A(name)); \
+		static const auto offset = netvars::get<uint32_t>(HASH(name)); \
 		return reinterpret_cast<type*>(reinterpret_cast<uintptr_t>(this) + offset); \
 	}
 
 #define NETVAR_OFFSET(func, type, name, add) \
 	__forceinline type& func { \
-		static const auto offset = netvars::get<uint32_t>(FNV1A(name)); \
+		static const auto offset = netvars::get<uint32_t>(HASH(name)); \
 		return *reinterpret_cast<type*>(reinterpret_cast<uintptr_t>(this) + offset + add); \
 	}
 
 #define PNETVAR_OFFSET(func, type, name, add) \
 	__forceinline type* func { \
-		static const auto offset = netvars::get<uint32_t>(FNV1A(name)); \
+		static const auto offset = netvars::get<uint32_t>(HASH(name)); \
 		return reinterpret_cast<type*>(reinterpret_cast<uintptr_t>(this) + offset + add); \
 	}
 
 #define MNETVAR(func, type, name, modifier) \
 	__forceinline type& func { \
-		static const auto offset = netvars::get<uint32_t>(FNV1A(name)); \
+		static const auto offset = netvars::get<uint32_t>(HASH(name)); \
 		return **reinterpret_cast<type**>(reinterpret_cast<uintptr_t>(this) + offset * modifier); \
 	}
 
 #define NETPROP(func, name) \
 	__forceinline static recv_prop_t* func { \
-		static const auto prop = netvars::get<recv_prop_t*>(FNV1A(name)); \
+		static const auto prop = netvars::get<recv_prop_t*>(HASH(name)); \
 		return prop; \
 	}
 

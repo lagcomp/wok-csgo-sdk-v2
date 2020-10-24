@@ -82,8 +82,8 @@ bool vec3_t::to_screen(vec2_t& value) const {
 
 	value /= w;
 
-	value.x = render::m_screen_size.x * 0.5f + (value.x * render::m_screen_size.x) * 0.5f;
-	value.y = render::m_screen_size.y * 0.5f - (value.y * render::m_screen_size.y) * 0.5f;
+	value.x = (render::m_screen_size.x + value.x * render::m_screen_size.x) / 2.f;
+	value.y = (render::m_screen_size.y - value.y * render::m_screen_size.y) / 2.f;
 
 	return true;
 }

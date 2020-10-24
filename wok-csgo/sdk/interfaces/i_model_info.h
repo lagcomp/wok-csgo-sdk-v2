@@ -71,10 +71,22 @@ struct mstudiobone_t {
 	int						m_surface_prop_lookup;
 	char					pad0[28];
 
-	__forceinline const char* get_name() const { return reinterpret_cast<const char*>(this) + m_name_index; }
-	__forceinline const void* get_procedure() const { return (m_proc_index == 0) ? nullptr : reinterpret_cast<const void*>(reinterpret_cast<const uint8_t*>(this) + m_proc_index); };
-	__forceinline const char* get_surface_prop_name() const { return reinterpret_cast<const char*>(this) + m_surface_prop_index; }
-	__forceinline int get_surface_prop() const { return m_surface_prop_lookup; }
+	__forceinline const char* get_name() const {
+		return reinterpret_cast<const char*>(this) + m_name_index;
+	}
+
+	__forceinline const void* get_procedure() const {
+		return (m_proc_index == 0) ? nullptr
+			: reinterpret_cast<const void*>(reinterpret_cast<const uint8_t*>(this) + m_proc_index);
+	}
+
+	__forceinline const char* get_surface_prop_name() const {
+		return reinterpret_cast<const char*>(this) + m_surface_prop_index;
+	}
+
+	__forceinline int get_surface_prop() const {
+		return m_surface_prop_lookup;
+	}
 };
 
 struct mstudioposeparamdesc_t {
@@ -84,13 +96,18 @@ struct mstudioposeparamdesc_t {
 	float					m_end;
 	float					m_loop;
 
-	__forceinline const char* get_name() const { return reinterpret_cast<const char*>(this) + m_name_index; }
+	__forceinline const char* get_name() const {
+		return reinterpret_cast<const char*>(this) + m_name_index;
+	}
 };
 
 struct mstudioactivitymodifier_t {
 	int					m_name_index;
 
-	__forceinline const char* get_name() const { return m_name_index ? reinterpret_cast<const char*>(reinterpret_cast<const uint8_t*>(this) + m_name_index) : nullptr; }
+	__forceinline const char* get_name() const {
+		return !m_name_index ? nullptr
+			: reinterpret_cast<const char*>(reinterpret_cast<const uint8_t*>(this) + m_name_index);
+	}
 };
 
 struct mstudioseqdesc_t {
@@ -138,10 +155,13 @@ struct mstudioseqdesc_t {
 	int						m_anim_tags_count;
 	char					pad1[12];
 
-	__forceinline const anim_tag_t* get_anim_tag(int i) const { return reinterpret_cast<const anim_tag_t*>(reinterpret_cast<const uint8_t*>(this) + m_anim_tag_index) + i; }
+	__forceinline const anim_tag_t* get_anim_tag(int i) const {
+		return reinterpret_cast<const anim_tag_t*>(reinterpret_cast<const uint8_t*>(this) + m_anim_tag_index) + i;
+	}
 
 	__forceinline const mstudioactivitymodifier_t* get_activity_modifier(int i) const {
-		return m_activity_modifier_index != 0 ? reinterpret_cast<const mstudioactivitymodifier_t*>(reinterpret_cast<const uint8_t*>(this) + m_activity_modifier_index) + i : nullptr; 
+		return !m_activity_modifier_index ? nullptr
+			: reinterpret_cast<const mstudioactivitymodifier_t*>(reinterpret_cast<const uint8_t*>(this) + m_activity_modifier_index) + i; 
 	}
 };
 
@@ -226,30 +246,31 @@ public:
 	char					pad1[4];
 
 	__forceinline const mstudiohitboxset_t* get_hitbox_set(int i) const {
-		return i <= m_hitbox_sets_count ? reinterpret_cast<const mstudiohitboxset_t*>(reinterpret_cast<const uint8_t*>(this) + m_hitbox_set_index) + i : nullptr;
+		return i > m_hitbox_sets_count ? nullptr
+			: reinterpret_cast<const mstudiohitboxset_t*>(reinterpret_cast<const uint8_t*>(this) + m_hitbox_set_index) + i;
 	}
 
 	__forceinline const mstudiobone_t* get_bone(int i) const {
-		return i <= m_bones_count ? reinterpret_cast<const mstudiobone_t*>(reinterpret_cast<const uint8_t*>(this) + m_bone_index) + i : nullptr;
+		return i > m_bones_count ? nullptr
+			: reinterpret_cast<const mstudiobone_t*>(reinterpret_cast<const uint8_t*>(this) + m_bone_index) + i;
 	}
 
 	__forceinline const mstudioseqdesc_t* get_local_seqdesc(int i) const {
-		if (i < 0
-			|| i >= m_local_seq_count) {
-			i = 0;
-		}
-
-		return reinterpret_cast<const mstudioseqdesc_t*>(reinterpret_cast<const uint8_t*>(this) + sizeof(mstudioseqdesc_t) * i + m_local_seq_index);
+		return i > m_local_seq_count ? nullptr
+			: reinterpret_cast<const mstudioseqdesc_t*>(reinterpret_cast<const uint8_t*>(this) + sizeof(mstudioseqdesc_t) * i + m_local_seq_index);
 	};
 
 	__forceinline const mstudioposeparamdesc_t* get_local_pose_parameter(int i) const {
-		return reinterpret_cast<const mstudioposeparamdesc_t*>(reinterpret_cast<const uint8_t*>(this) + m_local_pose_param_index) + i;
+		return i > m_local_pose_parameters_count ? nullptr
+			: reinterpret_cast<const mstudioposeparamdesc_t*>(reinterpret_cast<const uint8_t*>(this) + m_local_pose_param_index) + i;
 	}
 };
 
 class virtualgroup_t {
 public:
-	__forceinline studiohdr_t* get_studio_hdr() const { return reinterpret_cast<studiohdr_t*>(m_cache); }
+	__forceinline studiohdr_t* get_studio_hdr() const {
+		return reinterpret_cast<studiohdr_t*>(m_cache);
+	}
 
 	void*				m_cache;
 	c_utl_vector<int>	m_bone_map;

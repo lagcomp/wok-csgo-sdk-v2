@@ -69,7 +69,7 @@ struct data_map_t {
 				if (!data_map->m_data_description[i].m_field_name)
 					continue;
 
-				if (hash == FNV1A_RT(data_map->m_data_description[i].m_field_name))
+				if (hash == HASH_RT(data_map->m_data_description[i].m_field_name))
 					return data_map->m_data_description[i].m_field_offset;
 
 				if (data_map->m_data_description[i].m_field_type != FIELD_EMBEDDED
@@ -101,6 +101,6 @@ struct data_map_t {
 
 #define DATA_MAP(func, type, name) \
 	__forceinline type& func { \
-		static const auto offset = get_pred_desc_map()->find(FNV1A(name)); \
+		static const auto offset = get_pred_desc_map()->find(HASH(name)); \
 		return *reinterpret_cast<type*>(reinterpret_cast<uintptr_t>(this) + offset ); \
 	}

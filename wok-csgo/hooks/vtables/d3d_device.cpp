@@ -5,12 +5,14 @@ long __stdcall hooks::d3d_device::present::fn(IDirect3DDevice9* device, RECT* sr
 	static const auto original = m_d3d_device->get_original<T>(index);
 
 	IDirect3DVertexDeclaration9* vert_dec;
-	if (device->GetVertexDeclaration(&vert_dec))
+	if (device->GetVertexDeclaration(&vert_dec)) {
 		return original(device, src_rect, dest_rect, dest_wnd_override, dirty_region);
+	}
 
 	IDirect3DVertexShader9* vert_shader;
-	if (device->GetVertexShader(&vert_shader))
+	if (device->GetVertexShader(&vert_shader)) {
 		return original(device, src_rect, dest_rect, dest_wnd_override, dirty_region);
+	}
 
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();

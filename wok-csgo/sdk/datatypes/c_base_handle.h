@@ -9,22 +9,20 @@ public:
 	c_base_handle(unsigned long value) { m_index = value; }
 	c_base_handle(int entry, int serial_num) { init(entry, serial_num); }
 
-	__forceinline void init(int entry, int serial_num) { m_index = static_cast<unsigned long>(entry | (serial_num << NUM_SERIAL_NUM_SHIFT_BITS)); }
+	__forceinline void init(int entry, int serial_num) { m_index = static_cast<unsigned long>(entry | (serial_num << SERIAL_SHIFT_BITS_COUNT)); }
 	__forceinline void term() { m_index = INVALID_EHANDLE_INDEX; }
 
 	__forceinline bool is_valid() const { return m_index != INVALID_EHANDLE_INDEX; }
 
-	__forceinline int get_entry_index() const { return is_valid() ? m_index & ENT_ENTRY_MASK : NUM_ENT_ENTRIES - 1; }
+	__forceinline int get_entry_index() const { return is_valid() ? m_index & ENTITY_ENTRY_MASK : ENTITY_ENTRIES_COUNT - 1; }
 
-	__forceinline int get_serial_number() const { return m_index >> NUM_SERIAL_NUM_SHIFT_BITS; }
-
-	__forceinline int to_int() const { return m_index; }
-
-	__forceinline bool operator!=(const c_base_handle& other) const { return m_index != other.m_index; }
+	__forceinline int get_serial_number() const { return m_index >> SERIAL_SHIFT_BITS_COUNT; }
 
 	__forceinline bool operator==(const c_base_handle& other) const { return m_index == other.m_index; }
 
-	__forceinline bool operator==(i_handle_entity* entity) const { return get() == entity; };
+	__forceinline bool operator!=(const c_base_handle& other) const { return m_index != other.m_index; }
+
+	__forceinline bool operator==(i_handle_entity* entity) const { return get() == entity; }
 
 	__forceinline bool operator!=(i_handle_entity* entity) const { return get() != entity; }
 

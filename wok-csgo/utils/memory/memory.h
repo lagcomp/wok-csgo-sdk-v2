@@ -178,7 +178,7 @@ namespace memory {
 
 	template <typename T>
 	__forceinline T capture_interface(uint32_t hash, const char* interface_name) {
-		const auto create_interface_fn = get_export(hash, FNV1A("CreateInterface")).cast<T(__cdecl*)(const char*, int*)>();
+		const auto create_interface_fn = get_export(hash, HASH("CreateInterface")).cast<T(__cdecl*)(const char*, int*)>();
 		if (!create_interface_fn)
 			return nullptr;
 
@@ -203,10 +203,10 @@ namespace memory {
 	extern std::unordered_map<uint32_t, module_t> m_modules;
 }
 
-#define SIG(module_name, sig) memory::find_module_sig(FNV1A(module_name), _(sig))
-#define EXPORT(module_name, export_name) memory::get_export(FNV1A(module_name), FNV1A(export_name))
+#define SIG(module_name, sig) memory::find_module_sig(HASH(module_name), _(sig))
+#define EXPORT(module_name, export_name) memory::get_export(HASH(module_name), HASH(export_name))
 
-#define INTERFACE_EXPORT(value, type, module_name, interface_name) value = memory::capture_interface<type*>(FNV1A(module_name), _(interface_name));
+#define INTERFACE_EXPORT(value, type, module_name, interface_name) value = memory::capture_interface<type*>(HASH(module_name), _(interface_name));
 #define INTERFACE_OFFSET(value, type, ptr, index, add) value = **reinterpret_cast<type***>((*reinterpret_cast<uintptr_t**>(ptr))[index] + add);
 #define INTERFACE_SIG(value, type, module_name, sig, add) { value = *SIG(module_name, sig).self_offset(add).cast<type**>(); }
 #define PINTERFACE_SIG(value, type, module_name, sig, add) { value = **SIG(module_name, sig).self_offset(add).cast<type***>(); }
