@@ -26,7 +26,7 @@ struct jiggle_data_t {
 };
 
 struct player_info_t {
-	int64_t			pad0;
+	int64_t			m_data_map;
 
 	union {
 		int64_t		m_xuid;
@@ -53,7 +53,6 @@ struct bone_cache_t {
 	uint32_t		m_cached_bones_count;
 };
 
-class c_base_entity;
 class c_base_animating;
 
 struct bone_accessor_t {
@@ -62,6 +61,8 @@ struct bone_accessor_t {
 	int					m_readable_bones;
 	int					m_writable_bones;
 };
+
+class c_base_entity;
 
 struct anim_layer_t {
 	float			m_anim_time;
@@ -85,13 +86,13 @@ class c_base_combat_weapon;
 class c_anim_state {
 public:
 	VFUNC_SIG(reset(), "client.dll", "56 6A 01 68 ? ? ? ? 8B F1", void(__thiscall*)(void*))
-	VFUNC_SIG(create(c_base_entity* entity), "client.dll", "55 8B EC 56 8B F1 B9 ? ? ? ? C7 46", void(__thiscall*)(void*, c_base_entity*), entity)
+	VFUNC_SIG(create(c_cs_player* player), "client.dll", "55 8B EC 56 8B F1 B9 ? ? ? ? C7 46", void(__thiscall*)(void*, c_cs_player*), player)
 	VFUNC_SIG(get_weapon_prefix(), "client.dll", "53 56 57 8B F9 33 F6 8B 4F 60 8B 01 FF 90", const char*(__thiscall*)(void*))
 	
 	__forceinline float get_body_yaw_modifier() const {
 		const auto walk_speed = math::clamp(m_speed_as_portion_of_walk_speed, 0.f, 1.f);
 
-		const auto run_speed = ((m_walk_to_run_transition * -0.30000001f) - 0.19999999f) * walk_speed;
+		const auto run_speed = ((m_walk_to_run_transition * -0.3f) - 0.2f) * walk_speed;
 		const auto modifier = run_speed + 1.f;
 
 		if (m_duck_amount > 0.f) {
@@ -125,60 +126,60 @@ public:
 	char					pad1[3];
 	int						m_tick_count;
 	char					pad2[83];
-	c_base_entity*			m_base_entity;
+	c_cs_player*			m_player;
 	c_base_combat_weapon*	m_active_weapon;
 	c_base_combat_weapon*	m_last_active_weapon;
 	float					m_last_cur_time;
 	int						m_last_frame_count;
-	float					m_delta_time;
+	float					m_last_frame_increment;
 	float					m_eye_yaw;
 	float					m_eye_pitch;
-	float					m_goal_feet_yaw;
-	float					m_last_feet_yaw;
-	float					m_cur_torso_yaw;
-	float					m_velocity_lean;
-	float					m_lean_amount;
+	float					m_foot_yaw;
+	float					m_foot_yaw_last;
+	float					m_move_yaw;
+	float					m_move_yaw_ideal;
+	float					m_move_yaw_cur_to_ideal;
 	char					pad3[4];
-	float					m_feet_cycle;
-	float					m_feet_weight;
+	float					m_primary_cycle;
+	float					m_move_weight;
 	char					pad4[4];
 	float					m_duck_amount;
-	float					m_landing_duck_additive;
+	float					m_duck_additional;
 	char					pad5[4];
-	vec3_t					m_origin;
-	vec3_t					m_last_origin;
+	vec3_t					m_position;
+	vec3_t					m_position_last;
 	vec3_t					m_velocity;
 	vec3_t					m_velocity_normalized;
 	vec3_t					m_velocity_normalized_non_zero;
-	float					m_speed_2d;
-	float					m_up_velocity;
+	float					m_velocity_length_xy;
+	float					m_velocity_length_z;
 	float					m_speed_as_portion_of_run_speed;
 	float					m_speed_as_portion_of_walk_speed;
 	float					m_speed_as_portion_of_crouch_speed;
-	float					m_time_since_started_moving;
-	float					m_time_since_stopped_moving;
+	float					m_duration_moving;
+	float					m_duration_still;
 	bool					m_on_ground;
-	bool					m_in_hit_ground_animation;
+	bool					m_landing;
 	char					pad6[6];
-	float					m_time_since_in_air;
-	float					m_last_origin_z;
-	float					m_head_height_or_offset_from_hitting_ground_animation;
+	float					m_duration_in_air;
+	float					m_left_ground_height;
+	float					m_land_anim_multiplier;
 	float					m_walk_to_run_transition;
 	char					pad7[4];
-	float					m_magic_fraction;
+	float					m_in_air_smooth_value;
 	bool					m_on_ladder;
 	char					pad8[47];
 	float					m_last_velocity_test_time;
 	vec3_t					m_last_velocity;
-	vec3_t					m_dst_acceleration;
+	vec3_t					m_target_acceleration;
 	vec3_t					m_acceleration;
 	float					m_acceleration_weight;
 	char					pad9[428];
-	float					m_min_body_yaw;
-	float					m_max_body_yaw;
-	float					m_min_body_pitch;
-	float					m_max_body_pitch;
-	int						m_anim_set_version;
+	float					m_aim_yaw_min;
+	float					m_aim_yaw_max;
+	float					m_aim_pitch_min;
+	float					m_aim_pitch_max;
+	int						m_animstate_version;
 };
 
 class c_cs_weapon_data {
@@ -256,6 +257,21 @@ public:
 	float	m_recoil_magnitude_alt;
 	float	m_recoil_magnitude_variance;
 	float	m_recoil_magnitude_variance_alt;
+	float	m_recovery_time_crouch;
+	float	m_recovery_time_stand;
+	float	m_recovery_time_crouch_final;
+	float	m_recovery_time_stand_final;
+	int	m_recovery_transition_bullet_start;
+	int	m_recovery_transition_bullet_end;
+	bool	m_unzoom_after_shot;
+	char	pad14[31];
+	char*	m_weapon_class;
+	char	pad15[56];
+	float	m_inaccuracy_pitch_shift;
+	float	m_inaccuracy_sound_threshold;
+	float	m_bot_audible_range;
+	char	pad16[12];
+	bool	m_has_burst_mode;
 };
 
 enum e_cs_weapon_type {
@@ -279,39 +295,39 @@ enum e_cs_weapon_type {
 };
 
 enum e_material_flags {
-	MATERIAL_FLAG_DEBUG = (1 << 0),
-	MATERIAL_FLAG_NO_DEBUG_OVERRIDE = (1 << 1),
-	MATERIAL_FLAG_NO_DRAW = (1 << 2),
-	MATERIAL_FLAG_USE_IN_FILLRATE_MODE = (1 << 3),
-	MATERIAL_FLAG_VERTEXCOLOR = (1 << 4),
-	MATERIAL_FLAG_VERTEXALPHA = (1 << 5),
-	MATERIAL_FLAG_SELFILLUM = (1 << 6),
-	MATERIAL_FLAG_ADDITIVE = (1 << 7),
-	MATERIAL_FLAG_ALPHATEST = (1 << 8),
-	MATERIAL_FLAG_ZNEARER = (1 << 10),
-	MATERIAL_FLAG_MODEL = (1 << 11),
-	MATERIAL_FLAG_FLAT = (1 << 12),
-	MATERIAL_FLAG_NOCULL = (1 << 13),
-	MATERIAL_FLAG_NOFOG = (1 << 14),
-	MATERIAL_FLAG_IGNOREZ = (1 << 15),
-	MATERIAL_FLAG_DECAL = (1 << 16),
-	MATERIAL_FLAG_ENVMAPSPHERE = (1 << 17),
-	MATERIAL_FLAG_ENVMAPCAMERASPACE = (1 << 19),
-	MATERIAL_FLAG_BASEALPHAENVMAPMASK = (1 << 20),
-	MATERIAL_FLAG_TRANSLUCENT = (1 << 21),
-	MATERIAL_FLAG_NORMALMAPALPHAENVMAPMASK = (1 << 22),
-	MATERIAL_FLAG_NEEDS_SOFTWARE_SKINNING = (1 << 23),
-	MATERIAL_FLAG_OPAQUETEXTURE = (1 << 24),
-	MATERIAL_FLAG_ENVMAPMODE = (1 << 25),
-	MATERIAL_FLAG_SUPPRESS_DECALS = (1 << 26),
-	MATERIAL_FLAG_HALFLAMBERT = (1 << 27),
-	MATERIAL_FLAG_WIREFRAME = (1 << 28),
-	MATERIAL_FLAG_ALLOWALPHATOCOVERAGE = (1 << 29),
-	MATERIAL_FLAG_ALPHA_MODIFIED_BY_PROXY = (1 << 30),
-	MATERIAL_FLAG_VERTEXFOG = (1 << 31)
+	MATERIAL_FLAG_DEBUG 			= (1 << 0),
+	MATERIAL_FLAG_NO_DEBUG_OVERRIDE 	= (1 << 1),
+	MATERIAL_FLAG_NO_DRAW 			= (1 << 2),
+	MATERIAL_FLAG_USE_IN_FILLRATE_MODE 	= (1 << 3),
+	MATERIAL_FLAG_VERTEXCOLOR 		= (1 << 4),
+	MATERIAL_FLAG_VERTEXALPHA 		= (1 << 5),
+	MATERIAL_FLAG_SELFILLUM 		= (1 << 6),
+	MATERIAL_FLAG_ADDITIVE 			= (1 << 7),
+	MATERIAL_FLAG_ALPHATEST 		= (1 << 8),
+	MATERIAL_FLAG_ZNEARER 			= (1 << 10),
+	MATERIAL_FLAG_MODEL 			= (1 << 11),
+	MATERIAL_FLAG_FLAT 			= (1 << 12),
+	MATERIAL_FLAG_NOCULL 			= (1 << 13),
+	MATERIAL_FLAG_NOFOG 			= (1 << 14),
+	MATERIAL_FLAG_IGNOREZ 			= (1 << 15),
+	MATERIAL_FLAG_DECAL 			= (1 << 16),
+	MATERIAL_FLAG_ENVMAPSPHERE 		= (1 << 17),
+	MATERIAL_FLAG_ENVMAPCAMERASPACE		= (1 << 19),
+	MATERIAL_FLAG_BASEALPHAENVMAPMASK 	= (1 << 20),
+	MATERIAL_FLAG_TRANSLUCENT 		= (1 << 21),
+	MATERIAL_FLAG_NORMALMAPALPHAENVMAPMASK 	= (1 << 22),
+	MATERIAL_FLAG_NEEDS_SOFTWARE_SKINNING 	= (1 << 23),
+	MATERIAL_FLAG_OPAQUETEXTURE 		= (1 << 24),
+	MATERIAL_FLAG_ENVMAPMODE 		= (1 << 25),
+	MATERIAL_FLAG_SUPPRESS_DECALS 		= (1 << 26),
+	MATERIAL_FLAG_HALFLAMBERT 		= (1 << 27),
+	MATERIAL_FLAG_WIREFRAME 		= (1 << 28),
+	MATERIAL_FLAG_ALLOWALPHATOCOVERAGE 	= (1 << 29),
+	MATERIAL_FLAG_ALPHA_MODIFIED_BY_PROXY 	= (1 << 30),
+	MATERIAL_FLAG_VERTEXFOG 		= (1 << 31)
 };
 
-enum e_invalidate_physics_bits {
+enum e_invalidate_physics_flags {
 	POSITION_CHANGED 	= (1 << 0),
 	ANGLES_CHANGED 		= (1 << 1),
 	VELOCITY_CHANGED 	= (1 << 2),
@@ -1020,7 +1036,7 @@ enum e_pose_param {
 	POSE_PARAM_DEATH_YAW
 };
 
-enum e_collision_group {
+enum e_collision_group_type {
 	COLLISION_GROUP_NONE,
 	COLLISION_GROUP_DEBRIS,
 	COLLISION_GROUP_DEBRIS_TRIGGER,
@@ -1044,7 +1060,7 @@ enum e_collision_group {
 	LAST_SHARED_COLLISION_GROUP
 };
 
-enum e_effects_type {
+enum e_effects_flags {
 	EF_BONE_MERGE			= (1 << 0),
 	EF_BRIGHT_LIGHT			= (1 << 1),
 	EF_DIMLIGHT				= (1 << 2),
@@ -1062,7 +1078,7 @@ enum e_effects_type {
 	EF_NO_CSM				= (1 << 14)
 };
 
-enum e_eflags_type {
+enum e_eflags {
 	EFL_KILLME 								= (1 << 0),
 	EFL_DORMANT 							= (1 << 1),
 	EFL_NOCLIP_ACTIVE 						= (1 << 2),
@@ -1098,34 +1114,34 @@ enum e_eflags_type {
 };
 
 enum e_bone_flags {
-	BF_PHYSICALLY_SIMULATED		= (1 << 0),
-	BF_PHYSICS_PROCEDURAL		= (1 << 1),
-	BF_ALWAYS_PROCEDURAL		= (1 << 2),
-	BF_SCREEN_ALIGN_SPHERE		= (1 << 3),
-	BF_SCREEN_ALIGN_CYLINDER	= (1 << 4),
-	BF_CALCULATE_MASK			= (1 << 5) - BF_PHYSICALLY_SIMULATED,
-	BF_USED_BY_HITBOX			= (1 << 8),
-	BF_USED_BY_ATTACHMENT		= (1 << 9),
-	BF_USED_BY_VERTEX_LOD0		= (1 << 10),
-	BF_USED_BY_VERTEX_LOD1		= (1 << 11),
-	BF_USED_BY_VERTEX_LOD2		= (1 << 12),
-	BF_USED_BY_VERTEX_LOD3		= (1 << 13),
-	BF_USED_BY_VERTEX_LOD4		= (1 << 14),
-	BF_USED_BY_VERTEX_LOD5		= (1 << 15),
-	BF_USED_BY_VERTEX_LOD6		= (1 << 16),
-	BF_USED_BY_VERTEX_LOD7		= (1 << 17),
-	BF_USED_BY_BONE_MERGE		= (1 << 18),
-	BF_USED_BY_VERTEX_MASK		= (BF_USED_BY_BONE_MERGE - BF_USED_BY_VERTEX_LOD0),
-	BF_USED_BY_ANYTHING			= (1 << 19) - BF_USED_BY_HITBOX,
-	BF_USED_MASK				= (1 << 19) - BF_USED_BY_HITBOX,
-	BF_FIXED_ALIGNMENT			= (1 << 20),
-	BF_HAS_SAVEFRAME_POS		= (1 << 21),
-	BF_HAS_SAVEFRAME_ROT64		= (1 << 22),
-	BF_HAS_SAVEFRAME_ROT32		= (1 << 23),
-	BF_TYPE_MASK				= 0x00F00000
+	BONE_FLAG_PHYSICALLY_SIMULATED		= (1 << 0),
+	BONE_FLAG_PHYSICS_PROCEDURAL		= (1 << 1),
+	BONE_FLAG_ALWAYS_PROCEDURAL		= (1 << 2),
+	BONE_FLAG_SCREEN_ALIGN_SPHERE		= (1 << 3),
+	BONE_FLAG_SCREEN_ALIGN_CYLINDER	= (1 << 4),
+	BONE_FLAG_CALCULATE_MASK			= (1 << 5) - BONE_FLAG_PHYSICALLY_SIMULATED,
+	BONE_FLAG_USED_BY_HITBOX			= (1 << 8),
+	BONE_FLAG_USED_BY_ATTACHMENT		= (1 << 9),
+	BONE_FLAG_USED_BY_VERTEX_LOD0		= (1 << 10),
+	BONE_FLAG_USED_BY_VERTEX_LOD1		= (1 << 11),
+	BONE_FLAG_USED_BY_VERTEX_LOD2		= (1 << 12),
+	BONE_FLAG_USED_BY_VERTEX_LOD3		= (1 << 13),
+	BONE_FLAG_USED_BY_VERTEX_LOD4		= (1 << 14),
+	BONE_FLAG_USED_BY_VERTEX_LOD5		= (1 << 15),
+	BONE_FLAG_USED_BY_VERTEX_LOD6		= (1 << 16),
+	BONE_FLAG_USED_BY_VERTEX_LOD7		= (1 << 17),
+	BONE_FLAG_USED_BY_BONE_MERGE		= (1 << 18),
+	BONE_FLAG_USED_BY_VERTEX_MASK		= (BONE_FLAG_USED_BY_BONE_MERGE - BONE_FLAG_USED_BY_VERTEX_LOD0),
+	BONE_FLAG_USED_BY_ANYTHING			= (1 << 19) - BONE_FLAG_USED_BY_HITBOX,
+	BONE_FLAG_USED_MASK				= (1 << 19) - BONE_FLAG_USED_BY_HITBOX,
+	BONE_FLAG_FIXED_ALIGNMENT			= (1 << 20),
+	BONE_FLAG_HAS_SAVEFRAME_POS		= (1 << 21),
+	BONE_FLAG_HAS_SAVEFRAME_ROT64		= (1 << 22),
+	BONE_FLAG_HAS_SAVEFRAME_ROT32		= (1 << 23),
+	BONE_FLAG_TYPE_MASK				= 0x00F00000
 };
 
-enum e_hitgroups {
+enum e_hitgroup_type {
 	HITGROUP_GENERIC,
 	HITGROUP_HEAD,
 	HITGROUP_CHEST,
@@ -1137,7 +1153,7 @@ enum e_hitgroups {
 	HITGROUP_GEAR = 10
 };
 
-enum e_hitboxes {
+enum e_hitbox_type {
 	HITBOX_HEAD,
 	HITBOX_NECK,
 	HITBOX_PELVIS,
@@ -1197,7 +1213,7 @@ enum e_studio_flags {
 enum e_flow_type {
 	FLOW_OUTGOING,
 	FLOW_INCOMING,
-	MAX_FLOWS
+	FLOW_MAX
 };
 
 enum e_damage_type {
@@ -1229,8 +1245,8 @@ enum e_surf_flags {
 	SURF_HINT		= (1 << 8),
 	SURF_SKIP		= (1 << 9),
 	SURF_NOLIGHT	= (1 << 10),
-	SURF_BUMPLIGHT = (1 << 11),
-	SURF_NOSHADOWS = (1 << 12),
+	SURF_BUMPLIGHT 	= (1 << 11),
+	SURF_NOSHADOWS 	= (1 << 12),
 	SURF_NODECALS	= (1 << 13),
 	SURF_NOCHOP		= (1 << 14),
 	SURF_HITBOX		= (1 << 15),
@@ -1267,34 +1283,34 @@ enum e_buttons {
 };
 
 enum e_beam_type {
-	TE_BEAMPOINTS,
-	TE_SPRITE,
-	TE_BEAMDISK,
-	TE_BEAMCYLINDER,
-	TE_BEAMFOLLOW,
-	TE_BEAMRING,
-	TE_BEAMSPLINE,
-	TE_BEAMRINGPOINT,
-	TE_BEAMLASER,
-	TE_BEAMTESLA
+	BEAM_TYPE_POINTS,
+	BEAM_TYPE_SPRITE,
+	BEAM_TYPE_DISK,
+	BEAM_TYPE_CYLINDER,
+	BEAM_TYPE_FOLLOW,
+	BEAM_TYPE_RING,
+	BEAM_TYPE_SPLINE,
+	BEAM_TYPE_RING_POINT,
+	BEAM_TYPE_LASER,
+	BEAM_TYPE_TESLA
 };
 
 enum e_beam_flags {
-	FBEAM_STARTENTITY		= (1 << 0),
-	FBEAM_ENDENTITY		= (1 << 1),
-	FBEAM_FADEIN			= (1 << 2),
-	FBEAM_FADEOUT			= (1 << 3),
-	FBEAM_SINENOISE		= (1 << 4),
-	FBEAM_SOLID				= (1 << 5),
-	FBEAM_SHADEIN			= (1 << 6),
-	FBEAM_SHADEOUT			= (1 << 7),
-	FBEAM_ONLYNOISEONCE	= (1 << 8),
-	FBEAM_NOTILE			= (1 << 9),
-	FBEAM_USE_HITBOXES	= (1 << 10),
-	FBEAM_STARTVISIBLE	= (1 << 11),
-	FBEAM_ENDVISIBLE		= (1 << 12),
-	FBEAM_ISACTIVE			= (1 << 13),
-	FBEAM_FOREVER			= (1 << 14),
-	FBEAM_HALOBEAM			= (1 << 15),
-	FBEAM_REVERSED			= (1 << 16)
+	BEAM_FLAG_START_ENTITY		= (1 << 0),
+	BEAM_FLAG_END_ENTITY		= (1 << 1),
+	BEAM_FLAG_FADE_IN			= (1 << 2),
+	BEAM_FLAG_FADE_OUT			= (1 << 3),
+	BEAM_FLAG_SINE_NOISE		= (1 << 4),
+	BEAM_FLAG_SOLID				= (1 << 5),
+	BEAM_FLAG_SHADE_IN			= (1 << 6),
+	BEAM_FLAG_SHADE_OUT			= (1 << 7),
+	BEAM_FLAG_ONLY_NOISE_ONCE	= (1 << 8),
+	BEAM_FLAG_NOTILE			= (1 << 9),
+	BEAM_FLAG_USE_HITBOXES	= (1 << 10),
+	BEAM_FLAG_START_VISIBLE	= (1 << 11),
+	BEAM_FLAG_END_VISIBLE		= (1 << 12),
+	BEAM_FLAG_IS_ACTIVE			= (1 << 13),
+	BEAM_FLAG_FOREVER			= (1 << 14),
+	BEAM_FLAG_HALO_BEAM			= (1 << 15),
+	BEAM_FLAG_REVERSED			= (1 << 16)
 };
