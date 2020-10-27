@@ -31,7 +31,7 @@ namespace interfaces {
 
 		INTERFACE_SIG(game_rules, i_game_rules*, "client.dll", "A1 ? ? ? ? 85 C0 0F 84 ? ? ? ? 80 B8 ? ? ? ? ? 74 7A", 0x1)
 
-		INTERFACE_EXPORT(game_types, i_game_types, "matchmaking.dll", "VENGINE_GAMETYPES_VERSION")
+		INTERFACE_EXPORT(game_types, i_game_types, "matchmaking.dll", "VENGINE_GAMETYPES_VERSION002")
 		INTERFACE_EXPORT(model_cache, i_mdl_cache, "datacache.dll", "MDLCache004")
 		INTERFACE_EXPORT(model_render, i_model_render, "engine.dll", "VEngineModel016")
 		INTERFACE_EXPORT(material_system, i_material_system, "materialsystem.dll", "VMaterialSystem080")
