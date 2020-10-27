@@ -25,6 +25,7 @@ namespace interfaces {
 	extern i_input_system*			input_system;
 	extern i_client_leaf_system*	leaf_system;
 	extern i_game_rules**			game_rules;
+	extern i_game_types*			game_types;
 	extern i_mdl_cache*				model_cache;
 	extern i_model_render*			model_render;
 	extern i_material_system*		material_system;

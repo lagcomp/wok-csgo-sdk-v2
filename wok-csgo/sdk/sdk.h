@@ -43,6 +43,7 @@
 #include "interfaces/i_input_system.h"
 #include "interfaces/i_client_leaf_system.h"
 #include "interfaces/c_game_rules.h"
+#include "interfaces/i_game_types.h"
 #include "interfaces/i_mdl_cache.h"
 #include "interfaces/i_model_render.h"
 #include "interfaces/i_material_system.h"

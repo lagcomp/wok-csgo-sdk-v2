@@ -223,5 +223,6 @@
     <ClInclude Include="utils\netvars\data_map.h" />
     <ClInclude Include="sdk\interfaces\i_cvar_system.h" />
     <ClInclude Include="sdk\datatypes\c_cvar.h" />
+    <ClInclude Include="sdk\interfaces\i_game_types.h" />
   </ItemGroup>
 </Project>
