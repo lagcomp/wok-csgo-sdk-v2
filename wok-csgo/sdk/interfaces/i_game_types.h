@@ -1,7 +1,6 @@
 #pragma once
 
-class i_game_types
-{
+class i_game_types {
 public:
 	VFUNC(get_current_game_type(), 8, int(__thiscall*)(void*))
 	VFUNC(get_current_game_mode(), 9, int(__thiscall*)(void*))
