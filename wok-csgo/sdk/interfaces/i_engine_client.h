@@ -20,7 +20,7 @@ public:
 	VFUNC(is_playing_time_demo(), 84, bool(__thiscall*)(void*))
 	VFUNC(is_paused(), 90, bool(__thiscall*)(void*))
 	VFUNC(is_taking_screenshot(), 92, bool(__thiscall*)(void*))
-	VFUNC(is_HLTV(), 93, bool(__thiscall*)(void*))
+	VFUNC(is_hltv(), 93, bool(__thiscall*)(void*))
 	VFUNC(client_cmd(const char* cmd), 108, void(__thiscall*)(void*, const char*), cmd)
 	VFUNC(client_cmd_unrestricted(const char* cmd, bool unk = false), 114, void(__thiscall*)(void*, const char*, bool), cmd, unk)
 	VFUNC(is_voice_recording(), 224, bool(__thiscall*)(void*))
