@@ -42,6 +42,12 @@ namespace hooks {
 			using T = void(__stdcall*)(view_setup_t*);
 			void __stdcall fn(view_setup_t* view);
 		}
+
+		namespace override_mouse_input {
+			constexpr auto index = 23u;
+			using T = void(__stdcall*)(float*, float*);
+			void __stdcall fn(float* x, float* y);
+		}
 	}
 
 	namespace model_render {
