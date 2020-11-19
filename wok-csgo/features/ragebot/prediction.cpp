@@ -67,7 +67,7 @@ void c_prediction::process(c_cs_player* player, c_user_cmd* cmd) {
 	predict(player, cmd);
 }
 
-void c_prediction::restore(c_cs_player* player, c_user_cmd* cmd) {
+void c_prediction::restore() {
 	m_player = nullptr;
 	*m_random_seed = -1;
 
