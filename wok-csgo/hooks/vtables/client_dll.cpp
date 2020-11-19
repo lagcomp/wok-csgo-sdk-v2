@@ -48,7 +48,7 @@ void __stdcall hooks::client_dll::create_move::fn(int sequence_number, float inp
 
 	}
 
-	engine_prediction->restore(g::local, cmd);
+	engine_prediction->restore();
 
 	cmd->m_view_angles.sanitize();
 
