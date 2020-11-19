@@ -41,7 +41,7 @@ public:
 
 	void update();
 	void process(c_cs_player* player, c_user_cmd* cmd);
-	void restore(c_cs_player* player, c_user_cmd* cmd);
+	void restore();
 
 	float get_spread() const { return m_spread; }
 	float get_inaccuracy() const { return m_inaccuracy; }
