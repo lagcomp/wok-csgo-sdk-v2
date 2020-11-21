@@ -60,10 +60,6 @@ void __stdcall hooks::client_dll::create_move::fn(int sequence_number, float inp
 
 	movement->on_create_move(true);
 
-	cmd->m_move.x = math::clamp(cmd->m_move.x, -450.f, 450.f);
-	cmd->m_move.y = math::clamp(cmd->m_move.y, -450.f, 450.f);
-	cmd->m_move.z = math::clamp(cmd->m_move.z, -320.f, 320.f);
-
 	send_packet = g::send_packet;
 
 	const auto verified = interfaces::input->get_verified_user_cmd(sequence_number);
