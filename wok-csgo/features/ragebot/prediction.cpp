@@ -70,6 +70,11 @@ void c_prediction::process(c_cs_player* player, c_user_cmd* cmd) {
 void c_prediction::restore() {
 	m_player = nullptr;
 	*m_random_seed = -1;
+	
+	if (!interfaces::prediction->m_engine_paused 
+	&& interfaces::global_vars->m_frame_time > 0.f) {
+	   player->get_tick_base()++;
+	}
 
 	m_backup.restore();
 }
