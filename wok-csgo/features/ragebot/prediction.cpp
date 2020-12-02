@@ -26,6 +26,8 @@ void c_prediction::predict(c_cs_player* player, c_user_cmd* cmd) {
 	interfaces::move_helper->set_host(player);
 
 	interfaces::game_movement->start_track_prediction_errors(player);
+	
+	interfaces::prediction->check_moving_on_ground(player, interfaces::global_vars->m_frame_time);
 
 	interfaces::game_movement->process_movement(player, m_move_data);
 
