@@ -1,13 +1,12 @@
 #include "../features.h"
 
 void c_prediction::update() {
-	if (interfaces::client_state->m_delta_tick <= 0)
-		return;
 
+      if (interfaces::client_state->m_delta_tick > 0) 
 	interfaces::prediction->update(
 		interfaces::client_state->m_delta_tick, true,
 		interfaces::client_state->m_last_command_ack, interfaces::client_state->m_last_outgoing_command + interfaces::client_state->m_choked_commands
-	);
+	)
 }
 
 void c_prediction::predict(c_cs_player* player, c_user_cmd* cmd) {
