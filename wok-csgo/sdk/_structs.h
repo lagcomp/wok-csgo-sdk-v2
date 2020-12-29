@@ -87,11 +87,12 @@ public:
 	VFUNC_SIG(reset(), "client.dll", "56 6A 01 68 ? ? ? ? 8B F1", void(__thiscall*)(void*))
 	VFUNC_SIG(create(c_base_entity* entity), "client.dll", "55 8B EC 56 8B F1 B9 ? ? ? ? C7 46", void(__thiscall*)(void*, c_base_entity*), entity)
 	VFUNC_SIG(get_weapon_prefix(), "client.dll", "53 56 57 8B F9 33 F6 8B 4F 60 8B 01 FF 90", const char*(__thiscall*)(void*))
+	VFUNC_SIG(add_activity_modifier(const char* name), "server.dll", "E8 ? ? ? ? 8B 43 50", void(__thiscall*)(void*, const char*), name)
 	
 	__forceinline float get_body_yaw_modifier() const {
 		const auto walk_speed = math::clamp(m_speed_as_portion_of_walk_speed, 0.f, 1.f);
 
-		const auto run_speed = ((m_walk_to_run_transition * -0.30000001f) - 0.19999999f) * walk_speed;
+		const auto run_speed = ((m_walk_to_run_transition * -0.3f) - 0.2f) * walk_speed;
 		const auto modifier = run_speed + 1.f;
 
 		if (m_duck_amount > 0.f) {
