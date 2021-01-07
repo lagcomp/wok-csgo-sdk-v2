@@ -3,28 +3,28 @@
 template <typename T, typename I = int>
 class c_utl_memory {
 public:
-	__forceinline static int calc_new_allocation_count(int allocation_count, int grow_size, int new_size, int bytes_item) {
+	__forceinline static int calc_new_alloc_count(int alloc_count, int grow_size, int new_size, int bytes_item) {
 		if (grow_size) {
-			allocation_count = ((1 + ((new_size - 1) / grow_size)) * grow_size);
+			alloc_count = ((1 + ((new_size - 1) / grow_size)) * grow_size);
 		}
 		else {
-			if (!allocation_count) {
-				allocation_count = (31 + bytes_item) / bytes_item;
+			if (!alloc_count) {
+				alloc_count = (31 + bytes_item) / bytes_item;
 			}
 
-			while (allocation_count < new_size) {
-				allocation_count *= 2;
+			while (alloc_count < new_size) {
+				alloc_count *= 2;
 			}
 		}
 
-		return allocation_count;
+		return alloc_count;
 	}
 
-	__forceinline T& operator[](I i) { return m_memory[i]; }
+	__forceinline T& operator[](I i) { return m_data[i]; }
 
-	__forceinline const T& operator[](I i) const { return m_memory[i]; }
+	__forceinline const T& operator[](I i) const { return m_data[i]; }
 
-	__forceinline T* get() { return m_memory; }
+	__forceinline T* get() { return m_data; }
 
 	__forceinline int get_alloc_count() const { return m_alloc_count; }
 
@@ -32,10 +32,10 @@ public:
 		if (m_grow_size < 0)
 			return;
 
-		if (m_memory) {
-			interfaces::m_mem_alloc->free(m_memory);
+		if (m_data) {
+			interfaces::m_mem_alloc->free(m_data);
 
-			m_memory = 0;
+			m_data = 0;
 		}
 
 		m_alloc_count = 0;
@@ -66,14 +66,14 @@ public:
 
 		m_alloc_count = new_alloc_count;
 
-		m_memory = reinterpret_cast<T*>(
-			m_memory
-			? interfaces::m_mem_alloc->realloc(m_memory, m_alloc_count * sizeof(T))
+		m_data = reinterpret_cast<T*>(
+			m_data
+			? interfaces::m_mem_alloc->realloc(m_data, m_alloc_count * sizeof(T))
 			: interfaces::m_mem_alloc->alloc(m_alloc_count * sizeof(T))
-			);
+		);
 	}
 protected:
-	T* m_memory;
+	T* m_data;
 
 	int m_alloc_count;
 	int m_grow_size;
@@ -91,13 +91,13 @@ T* copy_construct(T* memory, T const& src) { return ::new(memory) T(src); }
 template <typename T, typename M = c_utl_memory<T>>
 class c_utl_vector {
 public:
-	__forceinline T& operator[](int i) { return m_memory[i]; }
+	__forceinline T& operator[](int i) { return m_data[i]; }
 
-	__forceinline const T& operator[](int i) const { return m_memory[i]; }
+	__forceinline const T& operator[](int i) const { return m_data[i]; }
 
-	__forceinline T& at(int i) { return m_memory[i]; }
+	__forceinline T& at(int i) { return m_data[i]; }
 
-	__forceinline const T& at(int i) const { return m_memory[i]; }
+	__forceinline const T& at(int i) const { return m_data[i]; }
 
 	__forceinline int size() const { return m_size; }
 
@@ -112,7 +112,7 @@ public:
 	__forceinline void purge() {
 		clear();
 
-		m_memory.purge();
+		m_data.purge();
 	}
 
 	__forceinline void shift_elements_right(int index, int number = 1) {
@@ -130,16 +130,16 @@ public:
 		if (number <= 0)
 			return;
 
-		const auto num_to_move = m_size - index - number;
-		if (num_to_move <= 0)
+		const auto move_size = m_size - index - number;
+		if (move_size <= 0)
 			return;
 
-		std::memmove(&at(index), &at(index + number), num_to_move * sizeof(T));
+		std::memmove(&at(index), &at(index + number), move_size * sizeof(T));
 	}
 
 	__forceinline void grow_vector(int number = 1) {
-		if (m_size + number > m_memory.get_alloc_count()) {
-			m_memory.grow(m_size + number - m_memory.get_alloc_count());
+		if (m_size + number > m_data.get_alloc_count()) {
+			m_data.grow(m_size + number - m_data.get_alloc_count());
 		}
 
 		m_size += number;
@@ -221,15 +221,15 @@ public:
 		return true;
 	}
 
-	__forceinline T* begin() { return m_memory.get(); }
+	__forceinline T* begin() { return m_data.get(); }
 
-	__forceinline const T* begin() const { return m_memory.get(); }
+	__forceinline const T* begin() const { return m_data.get(); }
 
-	__forceinline T* end() { return m_memory.get() + m_size; }
+	__forceinline T* end() { return m_data.get() + m_size; }
 
-	__forceinline const T* end() const { return m_memory.get() + m_size; }
+	__forceinline const T* end() const { return m_data.get() + m_size; }
 protected:
-	M m_memory;
+	M m_data;
 
 	int m_size;
 	T* m_elements;

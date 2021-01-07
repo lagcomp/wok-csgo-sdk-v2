@@ -31,7 +31,7 @@ public:
 	virtual void				unknown0() = 0;
 	virtual bool				is_dormant() = 0;
 	virtual int					get_index() const = 0;
-	virtual void				receive_message(int class_id, c_bf_read& msg) = 0;
+	virtual void				receive_msg(int class_id, c_bf_read& msg) = 0;
 	virtual void*				get_data_table_base_ptr() = 0;
 	virtual void				set_destroyed_on_recreate_entities() = 0;
 };
@@ -77,7 +77,7 @@ public:
 	virtual int						get_skin() = 0;
 	virtual void					on_threaded_draw_setup() = 0;
 	virtual bool					uses_flex_delayed_weights() = 0;
-	virtual void					record_tool_message() = 0;
+	virtual void					record_tool_msg() = 0;
 	virtual bool					should_draw_for_split_screen_user(int slot) = 0;
 	virtual uint8_t					override_alpha_modulation(uint8_t alpha) = 0;
 	virtual uint8_t					override_shadow_alpha_modulation(uint8_t alpha) = 0;

@@ -14,7 +14,7 @@ namespace interfaces {
 			addr = **addr.offset(0x3).cast<memory::address_t**>();
 		}
 		else {
-			return 0;
+			return nullptr;
 		}
 
 		using create_fn_t = uintptr_t*(__cdecl*)();
@@ -28,7 +28,7 @@ namespace interfaces {
 			return reinterpret_cast<T>((*addr.cast<create_fn_t*>())());
 		}
 
-		return 0;
+		return nullptr;
 	}
 
 	void init();

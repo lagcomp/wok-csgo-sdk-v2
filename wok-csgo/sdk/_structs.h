@@ -91,7 +91,7 @@ public:
 	__forceinline float get_body_yaw_modifier() const {
 		const auto walk_speed = math::clamp(m_speed_as_portion_of_walk_speed, 0.f, 1.f);
 
-		const auto run_speed = ((m_walk_to_run_transition * -0.30000001f) - 0.19999999f) * walk_speed;
+		const auto run_speed = ((m_walk_to_run_transition * -0.3f) - 0.2f) * walk_speed;
 		const auto modifier = run_speed + 1.f;
 
 		if (m_duck_amount > 0.f) {

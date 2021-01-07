@@ -2,18 +2,18 @@
 
 namespace memory {
 	struct protect_t {
-		protect_t(LPVOID addr, uint32_t size, DWORD flags) {
+		protect_t(void* ptr, uint32_t size, DWORD flags) {
 			m_size = size;
-			m_addr = addr;
+			m_ptr = ptr;
 
-			VirtualProtect(m_addr, m_size, flags, &m_flags);
+			VirtualProtect(m_ptr, m_size, flags, &m_flags_backup);
 		}
 
-		~protect_t() { VirtualProtect(m_addr, m_size, m_flags, &m_flags); }
+		~protect_t() { VirtualProtect(m_ptr, m_size, m_flags_backup, &m_flags_backup); }
 
-		DWORD m_flags = 0ul;
+		DWORD m_flags_backup = 0ul;
 		uint32_t m_size = 0u;
-		LPVOID m_addr = nullptr;
+		void* m_ptr = nullptr;
 	};
 
 	struct hook_t {
@@ -141,7 +141,7 @@ namespace memory {
 		}
 
 		template <typename T = address_t>
-		__forceinline T find_opcode(uint8_t opcode, ptrdiff_t offset = 0) const {
+		__forceinline T find_opcode(uint8_t opcode, ptrdiff_t offset = 0x0) const {
 			auto ptr = m_ptr;
 
 			while (const auto it = *ptr) {
@@ -156,7 +156,7 @@ namespace memory {
 			return (T)(ptr);
 		}
 
-		__forceinline address_t& self_find_opcode(uint8_t opcode, ptrdiff_t offset = 0) {
+		__forceinline address_t& self_find_opcode(uint8_t opcode, ptrdiff_t offset = 0x0) {
 			m_ptr = find_opcode(opcode, offset);
 
 			return *this;
@@ -181,10 +181,10 @@ namespace memory {
 		}
 
 		template <typename T = address_t>
-		__forceinline T local(uint32_t offset) const { return (T)(m_ptr - offset); }
+		__forceinline T local(ptrdiff_t offset) const { return (T)(m_ptr - offset); }
 
 		template <typename T = address_t>
-		__forceinline T arg(uint32_t offset) const { return (T)(m_ptr + offset); }
+		__forceinline T arg(ptrdiff_t offset) const { return (T)(m_ptr + offset); }
 	};
 
 	using headers_t = std::pair<IMAGE_DOS_HEADER*, IMAGE_NT_HEADERS*>;
@@ -208,13 +208,9 @@ namespace memory {
 
 			const auto name = std::wstring(base_dll_name->Buffer, base_dll_name->Length >> 1);
 
-			const auto size = WideCharToMultiByte(CP_UTF8, 0, name.data(), name.size(), 0, 0, 0, 0);
+			auto ret = utils::to_utf8(name);
 
-			auto ret = std::string(size, 0);
-
-			WideCharToMultiByte(CP_UTF8, 0, name.data(), name.size(), ret.data(), size, 0, 0);
-
-			std::transform(ret.begin(), ret.end(), ret.begin(), ::tolower);
+			std::transform(ret.begin(), ret.end(), ret.begin(), tolower);
 
 			return ret;
 		}

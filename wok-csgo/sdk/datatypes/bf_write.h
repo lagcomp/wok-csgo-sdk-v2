@@ -3,18 +3,18 @@
 class c_bf_write {
 public:
 	c_bf_write() {
-		m_data = 0;
+		m_data = nullptr;
 		m_data_bytes = 0;
 		m_data_bits = -1;
 		m_cur_bit = 0;
 		m_overflow = false;
 		m_assert_on_overflow = true;
-		m_debug_name = 0;
+		m_debug_name = "";
 	}
 
 	c_bf_write(void* data, int bytes, int bits = -1) {
 		m_assert_on_overflow = true;
-		m_debug_name = 0;
+		m_debug_name = "";
 
 		start_writing(data, bytes, 0, bits);
 	}

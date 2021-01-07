@@ -1,5 +1,6 @@
 #pragma once
 #define NOMINMAX
+#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
 
 #include <Windows.h>
 #include <stdint.h>
@@ -26,6 +27,8 @@
 #include <any>
 #include <filesystem>
 #include <winternl.h>
+#include <locale>
+#include <codecvt>
 
 #include <d3d9.h>
 #include <d3dx9core.h>

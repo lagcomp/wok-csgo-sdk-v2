@@ -8,13 +8,34 @@ namespace math {
 
 	void sin_cos(float rad, float& sin, float& cos);
 
-	__forceinline float rad_to_deg(float rad) { return rad * m_rad_pi; }
-
-	__forceinline float deg_to_rad(float deg) { return deg * m_deg_pi; }
-
 	__forceinline float clamp(float value, float min, float max) {
 		_mm_store_ss(&value, _mm_min_ss(_mm_max_ss(_mm_set_ss(value), _mm_set_ss(min)), _mm_set_ss(max)));
 		return value;
+	}
+
+	template<typename T>
+	__forceinline T rad_to_deg(const T& value) {
+		return value * static_cast<T>(m_rad_pi);
+	}
+
+	template<typename T>
+	__forceinline T deg_to_rad(const T& value) {
+		return value * static_cast<T>(m_deg_pi);
+	}
+
+	template<typename A, typename B>
+	__forceinline auto min(const A& a, const B& b) -> decltype(a < b ? a : b) {
+		return a < b ? a : b;
+	}
+
+	template<typename A, typename B>
+	__forceinline auto max(const A& a, const B& b) -> decltype(a > b ? a : b) {
+		return a > b ? a : b;
+	}
+
+	template<typename T, typename L, typename H>
+	__forceinline T& clamp(const T& value, const L& min, const H& max) {
+		return (value < min) ? min : (value > max) ? max : value;
 	}
 
 	double __forceinline __declspec (naked) __fastcall sin(double x) {

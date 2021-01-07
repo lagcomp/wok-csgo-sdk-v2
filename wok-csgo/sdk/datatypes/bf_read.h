@@ -74,7 +74,7 @@ public:
 				grab_next_dword();
 			}
 			else {
-				m_in_buf_word = 0;
+				m_in_buf_word = 0u;
 				m_bits_avail = 1;
 			}
 
@@ -88,7 +88,7 @@ public:
 	__forceinline void grab_next_dword(bool overflow_immediately = false) {
 		if (m_data_in == m_buffer_end) {
 			m_bits_avail = 1;
-			m_in_buf_word = 0;
+			m_in_buf_word = 0u;
 			m_data_in++;
 
 			if (overflow_immediately) {
@@ -97,7 +97,7 @@ public:
 		}
 		else if (m_data_in > m_buffer_end) {
 			m_overflow = true;
-			m_in_buf_word = 0;
+			m_in_buf_word = 0u;
 		}
 		else {
 			m_in_buf_word = *(m_data_in++);
