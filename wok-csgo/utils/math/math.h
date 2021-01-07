@@ -34,7 +34,7 @@ namespace math {
 	}
 
 	template<typename T, typename L, typename H>
-	__forceinline T& clamp(const T& value, const L& min, const H& max) {
+	__forceinline T clamp(const T& value, const L& min, const H& max) {
 		return (value < min) ? min : (value > max) ? max : value;
 	}
 
