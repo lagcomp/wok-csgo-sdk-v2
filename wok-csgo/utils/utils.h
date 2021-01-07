@@ -28,17 +28,29 @@
 #include "cfg/cfg.h"
 
 namespace utils {
-	__forceinline std::string to_utf8(const std::wstring& txt) {
+	__forceinline std::string to_utf8(std::wstring_view txt) {
 		if (txt.empty())
 			return "";
 
-		return std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(txt);
+		const auto size = WideCharToMultiByte(CP_UTF8, 0, txt.data(), txt.size(), 0, 0, 0, 0);
+
+		auto ret = std::string(size, 0);
+
+		WideCharToMultiByte(CP_UTF8, 0, txt.data(), txt.size(), ret.data(), size, 0, 0);
+
+		return ret;
 	}
 
-	__forceinline std::wstring to_unicode(const std::string& txt) {
+	__forceinline std::wstring to_unicode(std::string_view txt) {
 		if (txt.empty())
 			return L"";
 
-		return std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(txt);
+		const auto size = MultiByteToWideChar(CP_UTF8, 0, txt.data(), txt.size(), 0, 0);
+
+		auto ret = std::wstring(size, 0);
+
+		MultiByteToWideChar(CP_UTF8, 0, txt.data(), txt.size(), ret.data(), size);
+
+		return ret;
 	}
 }
