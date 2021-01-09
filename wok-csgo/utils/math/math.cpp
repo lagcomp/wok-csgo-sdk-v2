@@ -37,18 +37,8 @@ namespace math {
 		if (delta.empty())
 			return qangle_t();
 
-		const auto length = delta.length();
+		auto ret = delta.angle();
 
-		if (delta.z == 0.f && length == 0.f
-			|| delta.y == 0.f && delta.x == 0.f)
-			return qangle_t();
-
-		auto angles = qangle_t(asin(delta.z / length) * m_rad_pi, atan(delta.y / delta.x) * m_rad_pi, 0.f);
-
-		if (delta.x >= 0.f) {
-			angles.y += 180.f;
-		}
-
-		return angles.normalize();
+		return ret.normalize();
 	}
 }
