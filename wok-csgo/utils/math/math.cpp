@@ -31,14 +31,4 @@ namespace math {
 			up->z = cos.z * cos.x;
 		}
 	}
-
-	qangle_t calc_angle(const vec3_t& src, const vec3_t& dst) {
-		const auto delta = src - dst;
-		if (delta.empty())
-			return qangle_t();
-
-		auto ret = delta.angle();
-
-		return ret.normalize();
-	}
 }
