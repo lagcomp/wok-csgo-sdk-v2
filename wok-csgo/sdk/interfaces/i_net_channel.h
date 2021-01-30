@@ -78,6 +78,7 @@ public:
 	VFUNC(send_datagram(), 46, int(__thiscall*)(void*, void*), nullptr)
 	VFUNC(transmit(bool reliable), 49, bool(__thiscall*)(void*, bool), reliable)
 	VFUNC(request_file(const char* file_name), 62, int(__thiscall*)(void*, const char*), file_name)
+	VFUNC(force_choke(), 45, void(__thiscall*)(i_net_channel*), nullptr)	
 
 	__forceinline static uintptr_t* get_vtable() {
 		static const auto vtable = SIG("engine.dll", "C7 06 ? ? ? ? 8D BE ? ? ? ?").self_offset(0x2).cast<uintptr_t*>();
